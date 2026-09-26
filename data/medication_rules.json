@@ -1,0 +1,37 @@
+{
+  "rule_version": "r1",
+  "note": "Small, source-backed checks only. Not a comprehensive drug-safety or interaction checker. Rules are evaluated by ordinary code over declared operators; nothing model-generated is executed.",
+  "medication_classes": {
+    "nsaid": ["ibuprofen", "diclofenac", "naproxen", "mefenamic acid", "ketorolac", "aceclofenac", "nimesulide", "aspirin"],
+    "antiplatelet": ["aspirin", "clopidogrel", "ticagrelor", "prasugrel"]
+  },
+  "rules": [
+    {
+      "rule_id": "nsaid-when-dengue-considered",
+      "applies_to_class": "nsaid",
+      "condition": {"any": [
+        {"field": "doctor_plan.proposed_diagnosis", "op": "contains_any", "values": ["dengue"]},
+        {"field": "presentation.test_results", "op": "item_matches", "name_contains": ["ns1", "dengue igm"], "value_contains": ["positive", "reactive"]},
+        {"field": "presentation.clinical_question", "op": "contains_any", "values": ["dengue"]},
+        {"field": "presentation.notes", "op": "contains_any", "values": ["dengue"]}
+      ]},
+      "required_facts": ["doctor_plan.proposed_medications", "doctor_plan.proposed_diagnosis", "presentation.test_results"],
+      "warning": "Proposed NSAID/aspirin while dengue is under consideration; the national guideline advises avoiding aspirin or NSAIDs in dengue.",
+      "issue_type": "guideline_conflict",
+      "evidence_ids": ["dengue-groupA-antipyretic"]
+    },
+    {
+      "rule_id": "antiplatelet-review-in-dengue",
+      "applies_to_class": "antiplatelet",
+      "source": "current_medications",
+      "condition": {"any": [
+        {"field": "doctor_plan.proposed_diagnosis", "op": "contains_any", "values": ["dengue"]},
+        {"field": "presentation.test_results", "op": "item_matches", "name_contains": ["ns1", "dengue igm"], "value_contains": ["positive", "reactive"]}
+      ]},
+      "required_facts": ["patient.current_medications", "presentation.test_results"],
+      "warning": "Patient is on an antiplatelet agent with dengue under consideration; guideline advises careful monitoring and possible discontinuation depending on platelet count and bleeding.",
+      "issue_type": "risk_factor_not_addressed",
+      "evidence_ids": ["dengue-antiplatelet-cad"]
+    }
+  ]
+}

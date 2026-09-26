@@ -1,0 +1,72 @@
+{
+  "schema_version": "1",
+  "case_id": "demo-sanjay",
+  "revision": 1,
+  "doctor_profile_id": "cardiologist",
+  "encounter_at": "2026-08-04T10:00:00+05:30",
+  "patient": {
+    "display_name": "Sanjay (fictional)",
+    "age_years": 61,
+    "sex": "male",
+    "residence": {
+      "country": "India",
+      "state": "Karnataka",
+      "district": "Bengaluru Urban"
+    },
+    "known_conditions": [
+      "coronary artery disease"
+    ],
+    "current_medications": [
+      {
+        "name": "aspirin",
+        "dose": {
+          "value": 75,
+          "unit": "mg"
+        },
+        "route": "oral",
+        "frequency": "once daily",
+        "indication": "coronary artery disease"
+      }
+    ],
+    "allergies": null,
+    "family_history": null,
+    "pregnancy_status": "not_applicable"
+  },
+  "presentation": {
+    "symptoms": [
+      {
+        "name": "fever",
+        "duration_days": 4,
+        "severity": "moderate"
+      },
+      {
+        "name": "myalgia",
+        "duration_days": 4,
+        "severity": null
+      }
+    ],
+    "clinical_question": "Continue aspirin during this febrile illness?",
+    "vitals": null,
+    "test_results": null,
+    "recent_travel_or_exposure": null,
+    "attachments": [],
+    "notes": "Fictional case set in the week after IDSP week 31 (27 Jul - 2 Aug 2026)."
+  },
+  "doctor_plan": {
+    "proposed_diagnosis": "viral fever",
+    "proposed_treatment": "rest, fluids, continue current medicines",
+    "proposed_medications": [
+      {
+        "name": "paracetamol",
+        "dose": {
+          "value": 650,
+          "unit": "mg"
+        },
+        "route": "oral",
+        "frequency": "every 6 hours as needed",
+        "indication": "fever"
+      }
+    ],
+    "rationale": null
+  }
+}

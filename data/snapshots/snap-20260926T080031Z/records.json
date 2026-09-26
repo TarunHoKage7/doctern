@@ -1,0 +1,211 @@
+[
+ {
+  "evidence_id": "dengue-groupA-antipyretic",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "fever"
+  ],
+  "medication_tags": [
+   "paracetamol",
+   "aspirin",
+   "nsaid"
+  ],
+  "jurisdiction": "India",
+  "exact_excerpt": "Body temperature should be kept below 100°F. If the temperature goes beyond 100°F, give paracetamol. Paracetamol is available in tablet form or in syrup form. The recommended dose is 10 mg/kg/dose and should be administered in frequencies of not less than six hours. The maximum dose for adults is 4 gm/day. Avoid using aspirin or NSAIDs.",
+  "document_locator": "PDF page 56",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-warning-signs-education",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "warning signs",
+   "fever"
+  ],
+  "medication_tags": [],
+  "jurisdiction": "India",
+  "exact_excerpt": "Educate about warning signs and to report if they appear • Severe abdominal pain and persistent vomiting • Red spots patches on skin • Bleeding from nose and gums • Vomiting blood • Black tarry stools • Drowsiness or irritability • Pale, cold or clammy skin • Difficulty in Breathing",
+  "document_locator": "PDF page 56",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-high-risk-factors",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "diabetes",
+   "pregnancy",
+   "risk factors"
+  ],
+  "medication_tags": [
+   "steroid",
+   "nsaid"
+  ],
+  "jurisdiction": "India",
+  "exact_excerpt": "High-risk factors for severe disease • Infants and the children (age<10 years) especially with malnutrition • Elderly (age > 65 years) • Obesity • Pregnant women • Female who have menstruation or abnormal vaginal bleeding, • Hemolytic diseases such as glucose-6-phosphatase dehydrogenase deficiency, thalassemia and other haemoglobinopathies • Peptic ulcer disease • Congenital heart disease • Chronic diseases such as diabetes mellitus, hypertension, obstructive lung diseases, cardiovascular diseases, chronic renal failure, and chronic liver disease • Patients on long term steroid or NSAID treatment",
+  "document_locator": "PDF page 44",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-triage-parameters",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "fever",
+   "triage",
+   "platelet",
+   "hematocrit"
+  ],
+  "medication_tags": [],
+  "jurisdiction": "India",
+  "exact_excerpt": "Following parameters should be assessed : • Duration of fever • Presence of warning signs • High-risk groups (co-morbidities and co-infection) • Tourniquet test • Vital signs including temperature, blood pressure, pulse rate, respiratory rate • Peripheral perfusion by palpation of pulse volume, and colour of extremities, and capillary refill time • Recommendations for CBC (including haematocrit and platelet count) and random blood sugar (RBS)",
+  "document_locator": "PDF page 55",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-antiplatelet-cad",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "coronary artery disease",
+   "platelet",
+   "bleeding"
+  ],
+  "medication_tags": [
+   "aspirin",
+   "antiplatelet",
+   "anticoagulant"
+  ],
+  "jurisdiction": "India",
+  "exact_excerpt": "Management of dengue in CAD is challenging as these patients are already on antiplatelet agents which may lead to severe bleeding unless stopped. Cardiac ischemia or electrolyte disturbances should be frequently reassessed. Patient may develop congestive or biventricular heart failure and hence fluid management is challenging. Thus, patients who are on anti-platelet or anticoagulant medications should be carefully monitored. The anti-platelets agent such as aspirin and other anti-platelet drugs may be discontinued at initial stage when the patient is having platelet count less than one lakh or having minor or major bleeding manifestation with evidence of capillary leakage.",
+  "document_locator": "PDF page 70",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-bleeding-comorbidity",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "bleeding",
+   "peptic ulcer"
+  ],
+  "medication_tags": [
+   "steroid"
+  ],
+  "jurisdiction": "India",
+  "exact_excerpt": "Patients with comorbidities such as peptic ulcer disease or on steroids have a higher risk for hemorrhagic manifestations.",
+  "document_locator": "PDF page 37",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-classification-mild",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "fever",
+   "myalgia",
+   "classification"
+  ],
+  "medication_tags": [],
+  "jurisdiction": "India",
+  "exact_excerpt": "Mild dengue patient usually presents with fever and other symptoms like nausea, vomiting, rash, headache, myalgia , arthralgia and retroorbital pain, etc. Here, the complete blood count may reveal leucopenia but usually platelet count and hematocrit are in normal range. The other common symptoms which are often encountered are anorexia, altered taste sensation, constipation, colicky pain and abdominal tenderness. Mild dengue is subdivided as A1 and A2. The A1 involves patients with fever with other non-specific symptoms but no warning signs and A2 involves patients with prior comorbidities and other high -risk factors presenting wi th fever and other non -specific symptoms without warning signs.",
+  "document_locator": "PDF page 42",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ },
+ {
+  "evidence_id": "dengue-classification-moderate",
+  "snapshot_id": "snap-20260926T080031Z",
+  "source_kind": "guideline",
+  "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+  "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+  "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+  "published_at": "2023",
+  "retrieved_at": "2026-09-26",
+  "reporting_period_start": null,
+  "reporting_period_end": null,
+  "geography": "India (national)",
+  "condition_tags": [
+   "dengue",
+   "warning signs",
+   "classification"
+  ],
+  "medication_tags": [],
+  "jurisdiction": "India",
+  "exact_excerpt": "Here the patient present with fever with warning symptoms and signs (Refer Box 2). This usually occurs near the end of febrile phase and preferably at defervescense. Moderate dengue is further subdivided as B1 and B2. The B1 involves patients with fever with other non- specific symptoms and warning signs whereas B2 involves patients with prior comorbidities and other high-risk factors.",
+  "document_locator": "PDF page 42",
+  "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+  "local_document_id": "ncvbdc-dengue-2023"
+ }
+]

@@ -1,0 +1,24 @@
+{
+ "snapshot_id": "snap-20260926T080031Z",
+ "created_at": "2026-09-26T08:00:31.696399+00:00",
+ "record_count": 8,
+ "coverage": [
+  {
+   "document": "ncvbdc-dengue-2023",
+   "source_kind": "guideline",
+   "pages": 88,
+   "passages": 8
+  }
+ ],
+ "failures": [
+  {
+   "document": "idsp-2026-w10",
+   "error": "ConnectTimeout: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond"
+  }
+ ],
+ "scope": "Febrile illness / dengue clinical management (India, national guideline)",
+ "coverage_notes": [
+  "District-level surveillance coverage is missing unless a surveillance record is listed.",
+  "No local report does not exclude a disease; old reports are dated context only."
+ ]
+}

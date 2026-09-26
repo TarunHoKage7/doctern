@@ -1,0 +1,173 @@
+{
+ "manifest_version": "1",
+ "documents": [
+  {
+   "local_document_id": "ncvbdc-dengue-2023",
+   "source_kind": "guideline",
+   "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+   "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+   "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+   "local_file": "data/raw/dengue_guideline_2023.pdf",
+   "published_at": "2023",
+   "jurisdiction": "India",
+   "geography": "India (national)",
+   "passages": [
+    {
+     "id": "dengue-groupA-antipyretic",
+     "start": "Body temperature should be kept below 100",
+     "end": "Avoid using aspirin or NSAIDs.",
+     "condition_tags": [
+      "dengue",
+      "fever"
+     ],
+     "medication_tags": [
+      "paracetamol",
+      "aspirin",
+      "nsaid"
+     ]
+    },
+    {
+     "id": "dengue-warning-signs-education",
+     "start": "Educate about warning signs",
+     "end": "Difficulty in Breathing",
+     "condition_tags": [
+      "dengue",
+      "warning signs",
+      "fever"
+     ],
+     "medication_tags": []
+    },
+    {
+     "id": "dengue-high-risk-factors",
+     "start": "High-risk factors for severe disease",
+     "end": "Patients on long term steroid or NSAID treatment",
+     "condition_tags": [
+      "dengue",
+      "diabetes",
+      "pregnancy",
+      "risk factors"
+     ],
+     "medication_tags": [
+      "steroid",
+      "nsaid"
+     ]
+    },
+    {
+     "id": "dengue-triage-parameters",
+     "start": "Following parameters should be assessed",
+     "end": "blood sugar (RBS)",
+     "condition_tags": [
+      "dengue",
+      "fever",
+      "triage",
+      "platelet",
+      "hematocrit"
+     ],
+     "medication_tags": []
+    },
+    {
+     "id": "dengue-antiplatelet-cad",
+     "start": "Management of dengue in CAD is challenging",
+     "end": "evidence of capillary leakage.",
+     "condition_tags": [
+      "dengue",
+      "coronary artery disease",
+      "platelet",
+      "bleeding"
+     ],
+     "medication_tags": [
+      "aspirin",
+      "antiplatelet",
+      "anticoagulant"
+     ]
+    },
+    {
+     "id": "dengue-bleeding-comorbidity",
+     "start": "Patients with comorbidities such as peptic ulcer disease",
+     "end": "higher risk for hemorrhagic manifestations.",
+     "condition_tags": [
+      "dengue",
+      "bleeding",
+      "peptic ulcer"
+     ],
+     "medication_tags": [
+      "steroid"
+     ]
+    },
+    {
+     "id": "dengue-classification-mild",
+     "start": "Mild dengue patient usually presents with fever",
+     "end": "symptoms without warning signs.",
+     "condition_tags": [
+      "dengue",
+      "fever",
+      "myalgia",
+      "classification"
+     ],
+     "medication_tags": []
+    },
+    {
+     "id": "dengue-classification-moderate",
+     "start": "Here the patient present with fever with warning symptoms",
+     "end": "and other high-risk factors.",
+     "condition_tags": [
+      "dengue",
+      "warning signs",
+      "classification"
+     ],
+     "medication_tags": []
+    }
+   ]
+  },
+  {
+   "local_document_id": "idsp-2026-w31",
+   "source_kind": "surveillance",
+   "title": "IDSP Weekly Outbreak Report, 31st week 2026 (27 July - 2 August 2026)",
+   "publisher": "Integrated Disease Surveillance Programme (IDSP), National Centre for Disease Control, MoHFW",
+   "source_url": "https://ncdc.mohfw.gov.in/uploads/weekly_outbreaks/2026/week31_1790077762.pdf",
+   "local_file": "data/raw/idsp_2026_w31.pdf",
+   "published_at": null,
+   "reporting_period_start": "2026-07-27",
+   "reporting_period_end": "2026-08-02",
+   "jurisdiction": "India",
+   "geography": "India (district outbreak tables)",
+   "passages": [
+    {
+     "id": "idsp-w31-reporting-status",
+     "start": "Reporting Status of States",
+     "end": "reported in the 31st week 2026",
+     "condition_tags": [
+      "surveillance",
+      "coverage"
+     ],
+     "medication_tags": []
+    },
+    {
+     "id": "idsp-w31-bengaluru-urban-dengue",
+     "start": "KA/BEN/2026/31/1259",
+     "end": "hygiene and sanitation.",
+     "condition_tags": [
+      "dengue",
+      "fever",
+      "myalgia",
+      "karnataka",
+      "bengaluru urban",
+      "outbreak"
+     ],
+     "medication_tags": []
+    },
+    {
+     "id": "idsp-w31-covid-status-note",
+     "start": "COVID-19 STATUS",
+     "end": "can be accessed through",
+     "condition_tags": [
+      "covid-19",
+      "surveillance",
+      "coverage"
+     ],
+     "medication_tags": []
+    }
+   ]
+  }
+ ]
+}

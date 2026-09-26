@@ -1,0 +1,55 @@
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --ink: #1b1f24; --muted: #5d6671; --line: #dde1e6;
+  --accent: #0b6e69; --warn: #a3470d; --warn-bg: #fdf1e8; --ok: #26713a; --ok-bg: #eaf5ec;
+  --info-bg: #eef3fb; --err: #b00020;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111417; --card: #1a1e23; --ink: #e8eaed; --muted: #9aa3ad; --line: #2c3238;
+    --accent: #4fc1b9; --warn: #f0a26c; --warn-bg: #2d1f14; --ok: #7fcf8f; --ok-bg: #16261a;
+    --info-bg: #17202c; --err: #ff6b7f; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--line); background: var(--card); flex-wrap: wrap; }
+h1 { margin: 0; font-size: 22px; color: var(--accent); }
+h2 { font-size: 17px; margin: 0 0 6px; } h3 { font-size: 15px; margin: 14px 0 6px; }
+.sub, .muted { color: var(--muted); margin: 0; }
+.pill { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; white-space: nowrap; }
+.pitch { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; padding: 16px 24px; }
+.future { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 14px; }
+.tag { font-size: 11px; font-weight: 500; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+.flow { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; margin: 6px 0; }
+.flow li { background: var(--info-bg); border-radius: 6px; padding: 2px 8px; font-size: 13px; }
+.flow li + li::before { content: "→ "; color: var(--muted); }
+main { display: grid; grid-template-columns: minmax(300px, 1fr) minmax(340px, 1.3fr); gap: 16px; padding: 0 24px 24px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 8px 0; }
+.between { justify-content: space-between; }
+label { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
+select, input, textarea, button { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+textarea { width: 100%; min-height: 320px; font: 12px/1.4 ui-monospace, Consolas, monospace; }
+input { width: 100%; }
+button { cursor: pointer; } button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.preview { background: var(--info-bg); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.preview b { font-weight: 600; }
+.unknown { color: var(--warn); font-style: italic; }
+.err { color: var(--err); font-size: 13px; }
+.stages { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
+.stages li { font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--bg); color: var(--muted); }
+.stages li.active { background: var(--accent); color: #fff; } .stages li.done { color: var(--ok); }
+.disp { border-radius: 10px; padding: 10px 14px; margin: 10px 0; font-weight: 600; }
+.disp.material_concern { background: var(--warn-bg); color: var(--warn); }
+.disp.no_material_discrepancy_identified { background: var(--ok-bg); color: var(--ok); }
+.disp.needs_clarification, .disp.insufficient_evidence { background: var(--info-bg); }
+.disp .note { font-weight: 400; font-size: 13px; color: var(--muted); display: block; }
+.item { border-left: 3px solid var(--line); padding: 4px 10px; margin: 8px 0; }
+.item.supported { border-color: var(--warn); } .item.unresolved { border-color: var(--muted); }
+.status { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.cite { font-size: 12px; color: var(--accent); cursor: pointer; text-decoration: underline; margin-right: 6px; }
+.facts { font-size: 12px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; }
+.source { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; font-size: 13px; }
+.source blockquote { margin: 6px 0; padding-left: 10px; border-left: 3px solid var(--accent); }
+.source.flash { outline: 2px solid var(--accent); }
+pre { white-space: pre-wrap; word-break: break-word; font-size: 11px; max-height: 420px; overflow: auto; }
+@media (max-width: 860px) { main, .pitch { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; } header { padding: 12px 16px; } }

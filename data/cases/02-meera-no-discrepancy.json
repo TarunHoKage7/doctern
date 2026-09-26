@@ -1,0 +1,24 @@
+{
+  "schema_version": "1", "case_id": "demo-meera", "revision": 1, "doctor_profile_id": "general-physician",
+  "encounter_at": "2026-09-26T10:00:00+05:30",
+  "patient": {"display_name": "Meera (fictional)", "age_years": 46, "sex": "female",
+    "residence": {"country": "India", "state": "Telangana", "district": "Hyderabad"},
+    "known_conditions": ["type 2 diabetes"],
+    "current_medications": [{"name": "metformin", "dose": {"value": 500, "unit": "mg"}, "route": "oral", "frequency": "twice daily", "indication": "type 2 diabetes"}],
+    "allergies": [], "family_history": ["mother has hypertension"], "pregnancy_status": "not_pregnant"},
+  "presentation": {
+    "symptoms": [{"name": "fever", "duration_days": 2, "severity": "mild"}, {"name": "body aches", "duration_days": 2, "severity": "mild"}],
+    "clinical_question": null,
+    "vitals": [{"name": "temperature", "value": "100.6", "unit": "F", "measured_at": "2026-09-26T09:50:00+05:30"},
+               {"name": "blood pressure", "value": "124/80", "unit": "mmHg", "measured_at": "2026-09-26T09:50:00+05:30"}],
+    "test_results": [{"name": "Dengue NS1 antigen (rapid)", "value": "positive", "unit": null, "measured_at": "2026-09-26T09:40:00+05:30"},
+                     {"name": "platelet count", "value": "182000", "unit": "/microL", "measured_at": "2026-09-26T09:40:00+05:30"},
+                     {"name": "haematocrit", "value": "38", "unit": "%", "measured_at": "2026-09-26T09:40:00+05:30"},
+                     {"name": "random blood sugar", "value": "148", "unit": "mg/dL", "measured_at": "2026-09-26T09:40:00+05:30"}],
+    "recent_travel_or_exposure": null, "attachments": [],
+    "notes": "No warning signs on examination: no abdominal pain, vomiting, bleeding, or lethargy."},
+  "doctor_plan": {"proposed_diagnosis": "dengue without warning signs, with diabetes as a risk factor",
+    "proposed_treatment": "oral fluids, rest, daily CBC with haematocrit and platelet count, warning-sign education, continue metformin",
+    "proposed_medications": [{"name": "paracetamol", "dose": {"value": 500, "unit": "mg"}, "route": "oral", "frequency": "every 6 hours if temperature above 100F", "indication": "fever"}],
+    "rationale": "Mild dengue with comorbidity; outpatient follow-up."}
+}

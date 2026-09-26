@@ -1,0 +1,19 @@
+{
+  "schema_version": "1", "case_id": "demo-ravi", "revision": 1, "doctor_profile_id": "orthopedist",
+  "encounter_at": "2026-09-26T10:00:00+05:30",
+  "patient": {"display_name": "Ravi (fictional)", "age_years": 34, "sex": "male",
+    "residence": {"country": "India", "state": "Telangana", "district": "Hyderabad"},
+    "known_conditions": [], "current_medications": [], "allergies": [], "family_history": null, "pregnancy_status": "not_applicable"},
+  "presentation": {
+    "symptoms": [{"name": "fever", "duration_days": 3, "severity": "moderate"},
+                 {"name": "severe body aches and joint pain", "duration_days": 3, "severity": "severe"},
+                 {"name": "retro-orbital pain", "duration_days": 2, "severity": null}],
+    "clinical_question": null,
+    "vitals": [{"name": "temperature", "value": "101.8", "unit": "F", "measured_at": "2026-09-26T09:50:00+05:30"}],
+    "test_results": [{"name": "Dengue NS1 antigen (rapid)", "value": "positive", "unit": null, "measured_at": "2026-09-26T09:40:00+05:30"}],
+    "recent_travel_or_exposure": null, "attachments": [], "notes": "Referred for joint pain."},
+  "doctor_plan": {"proposed_diagnosis": "dengue fever with arthralgia",
+    "proposed_treatment": "rest, oral fluids",
+    "proposed_medications": [{"name": "ibuprofen", "dose": {"value": 400, "unit": "mg"}, "route": "oral", "frequency": "three times daily", "indication": "joint pain"}],
+    "rationale": "NS1 positive; strong analgesia for arthralgia."}
+}

@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+runs.db
+runs.db-*
+data/raw/*.pdf
+data/raw/*.txt
+.pytest_cache/
+server.log
+data/raw/

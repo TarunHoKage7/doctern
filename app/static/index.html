@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doctern Clinical Context</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Doctern</h1>
+    <p class="sub">Clinical context assistant for doctors in India. Advisory only; the clinician decides.</p>
+  </div>
+  <div id="health" class="pill">checking local models…</div>
+</header>
+
+<section class="pitch">
+  <div>
+    <h2>How it works</h2>
+    <p>Gemma 4 organizes the case and chooses local evidence lookups. MedGemma reviews independently and performs the final specialist review of any contested point. The app controls the sequence, validates every citation, and runs fully on this machine.</p>
+  </div>
+  <div class="future">
+    <h3>Planned voice intake <span class="tag">not implemented</span></h3>
+    <ol class="flow"><li>Speech</li><li>Structured case</li><li>Material clarification</li><li>Clinical review</li></ol>
+    <p class="muted">This prototype consumes structured JSON. There is no microphone in this build.</p>
+  </div>
+</section>
+
+<main>
+  <section class="panel">
+    <div class="row">
+      <label>Doctor profile <select id="profile"></select></label>
+      <label>Case <select id="caseSel"></select></label>
+    </div>
+    <div id="preview" class="preview"></div>
+    <details>
+      <summary>Edit case JSON</summary>
+      <textarea id="caseJson" spellcheck="false"></textarea>
+      <div id="jsonErr" class="err"></div>
+    </details>
+    <div class="row">
+      <button id="reviewBtn" class="primary">Review case</button>
+      <button id="liveBtn">Force live run</button>
+      <button id="replayBtn">Recorded replay</button>
+    </div>
+    <p class="muted" id="snapInfo"></p>
+  </section>
+
+  <section class="panel" id="resultPanel" hidden>
+    <div class="row between">
+      <ol class="stages" id="stages"></ol>
+      <span id="modeLabel" class="pill"></span>
+    </div>
+    <div id="status"></div>
+    <div id="result"></div>
+    <div id="clarify"></div>
+    <div id="decision" hidden>
+      <h3>Doctor response</h3>
+      <div class="row">
+        <button data-act="acknowledge">Acknowledge</button>
+        <button data-act="dismiss">Dismiss with note</button>
+        <button data-act="request_check">Request another check</button>
+      </div>
+      <input id="decisionNote" placeholder="Note (optional)">
+      <div id="decisionOut" class="muted"></div>
+    </div>
+    <details id="tech"><summary>Technical details</summary><pre id="techBody"></pre></details>
+  </section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[
+ {"profile_id": "general-physician", "display_name": "Dr. Kavya Reddy (fictional)", "qualification": "MBBS, MD (General Medicine)", "specialty": "General physician",
+  "practice_location": {"country": "India", "state": "Telangana", "district": "Hyderabad", "town": "Begumpet"}},
+ {"profile_id": "pediatrician", "display_name": "Dr. Arjun Menon (fictional)", "qualification": "MBBS, MD (Pediatrics)", "specialty": "Pediatrician",
+  "practice_location": {"country": "India", "state": "Telangana", "district": "Rangareddy", "town": "Gachibowli"}},
+ {"profile_id": "orthopedist", "display_name": "Dr. Farhan Siddiqui (fictional)", "qualification": "MBBS, MS (Orthopaedics)", "specialty": "Orthopedist",
+  "practice_location": {"country": "India", "state": "Andhra Pradesh", "district": "Visakhapatnam", "town": "Visakhapatnam"}},
+ {"profile_id": "cardiologist", "display_name": "Dr. Lakshmi Iyer (fictional)", "qualification": "MBBS, MD, DM (Cardiology)", "specialty": "Cardiologist",
+  "practice_location": {"country": "India", "state": "Karnataka", "district": "Bengaluru Urban", "town": "Bengaluru"}}
+]
