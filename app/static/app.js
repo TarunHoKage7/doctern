@@ -53,7 +53,7 @@ async function init() {
   health();
   try {
     const b = await api("/api/evidence/brief");
-    $("snapInfo").innerHTML += `<details><summary>This week's evidence summary (${b.observations.length} points, ${esc(b.review_status.replaceAll("_", " "))})</summary><ul>` +
+    $("snapInfo").innerHTML += `<details><summary>This week's evidence summary (${b.observations.length} points, ${esc({not_needed: "no clinical claims to check", reviewed_by_medgemma: "clinical claims checked by MedGemma", medgemma_unavailable: "MedGemma check unavailable"}[b.review_status] || b.review_status)})</summary><ul>` +
       b.observations.map((o) => `<li>${esc(o.statement)} <span class="facts">${esc(o.evidence_ids.join(", "))}</span></li>`).join("") +
       `</ul><p class="muted">Written by Gemma 4 from the pack above. The original passages always win.</p></details>`;
   } catch { /* no brief yet */ }
@@ -68,7 +68,8 @@ async function health() {
   try {
     const h = await api("/api/health");
     const ok = h.runtime === "ok" && h.models.gemma.digest && h.models.medgemma.digest;
-    $("health").textContent = ok ? `Local: ${h.models.gemma.model} + ${h.models.medgemma.model}` : `Models not ready (${h.runtime})`;
+    const where = (m) => (m.runtime || "").includes("online") ? "online" : "local";
+    $("health").textContent = ok ? `Gemma 4: ${h.models.gemma.model} (${where(h.models.gemma)}) · MedGemma: ${h.models.medgemma.model} (${where(h.models.medgemma)})` : `Models not ready (${h.runtime})`;
     $("health").style.color = ok ? "var(--ok)" : "var(--warn)";
   } catch { $("health").textContent = "health check failed"; }
 }
