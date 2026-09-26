@@ -1,0 +1,23 @@
+{
+  "schema_version": "1", "case_id": "demo-arjun", "revision": 1, "doctor_profile_id": "general-physician",
+  "encounter_at": "2026-08-04T11:00:00+05:30",
+  "patient": {"display_name": "Arjun (fictional)", "age_years": 29, "sex": "male",
+    "residence": {"country": "India", "state": "Telangana", "district": "Hyderabad"},
+    "known_conditions": [], "current_medications": [], "allergies": [], "family_history": null, "pregnancy_status": "not_applicable"},
+  "presentation": {
+    "symptoms": [{"name": "fever", "duration_days": 2, "severity": "mild"},
+                 {"name": "dry cough", "duration_days": 2, "severity": "moderate"},
+                 {"name": "sore throat", "duration_days": 2, "severity": "mild"},
+                 {"name": "loss of smell", "duration_days": 1, "severity": null},
+                 {"name": "fatigue", "duration_days": 2, "severity": null}],
+    "clinical_question": "Could this be more than a common cold, and does the patient need isolation?",
+    "vitals": [{"name": "SpO2", "value": "96", "unit": "%", "measured_at": "2026-08-04T10:50:00+05:30"},
+               {"name": "temperature", "value": "100.4", "unit": "F", "measured_at": "2026-08-04T10:50:00+05:30"}],
+    "test_results": [{"name": "chest X-ray report (text, image not analyzed)", "value": "faint bilateral peripheral ground-glass opacities", "unit": null, "measured_at": "2026-08-04T10:30:00+05:30"}],
+    "recent_travel_or_exposure": "Household member tested positive for COVID-19 three days ago.",
+    "attachments": [], "notes": null},
+  "doctor_plan": {"proposed_diagnosis": "common cold",
+    "proposed_treatment": "steam inhalation, rest, return to work tomorrow",
+    "proposed_medications": [{"name": "cetirizine", "dose": {"value": 10, "unit": "mg"}, "route": "oral", "frequency": "once daily", "indication": "cold symptoms"}],
+    "rationale": "Mild upper respiratory symptoms."}
+}

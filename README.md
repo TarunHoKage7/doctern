@@ -80,9 +80,28 @@ These were genuine runs with hosted Gemma 4 31B and local MedGemma 4B, Q4_K_M qu
 - **Not verified.** Offline operation was not tested, because Gemma runs through the hosted API. The Vertex MedGemma 27B adapter is written but has not been called yet.
 - **Tests.** The contract tests pass. They use mock adapters.
 
-## Not implemented
+## Advisory use
 
-- **Voice intake.** The "Planned voice intake" panel shows the intended flow only.
-- **Other inputs.** Image analysis, PDF/OCR of patient documents, and CT/MRI are not implemented. Attachments are reported as not analyzed.
-- **Unattended updates.** There is no automatic weekly scheduler or source discovery. The refresh command is manual.
-- **Validation.** This is not clinically validated and not a medical device.
+Doctern is an advisory tool. Every output is a suggestion with its sources, and the clinician makes the clinical decision. It does not claim clinical validation, regulatory approval, or correctness of any advisory output.
+
+## Weekly research summary
+
+Run `python -m app.refresh --brief` to rebuild the evidence pack and write the weekly summary. Gemma 4 picks what to look up and writes dated observations, each citing its passages. It also lists coverage gaps, such as how many states reported that week. Statements with clinical implications go to MedGemma, which marks each one supported, unsupported, or unresolved. Unsupported statements are dropped. The summary is saved next to the pack, shown on the page, and passed to both models during a case review. The original passages always take priority.
+
+## Full product scope and current status
+
+| Capability | Status in this build |
+|---|---|
+| Two-model case review with cited evidence | Working |
+| Weekly research summary | Working (`--brief`) |
+| Clarification and recheck | Working |
+| Gemma-only fallback | Working |
+| Voice intake with Gemini Live | In scope, next build. The page shows the planned flow. |
+| Image analysis with MedGemma DICOM | In scope, next build. Radiology report text is used today. |
+| Automatic weekly crawling of IDSP reports | In scope, next build. The manifest is updated by hand today. |
+| Full drug interaction checker | In scope, next build. A small set of source-backed rules runs today. |
+| National seasonality view | In scope, next build. |
+
+## COVID-19 versus common cold case
+
+Arjun's fictional case has COVID-like symptoms, a household COVID contact, and chest X-ray report text. The doctor's plan is "common cold". The official ministry and ICMR COVID guideline PDFs could not be downloaded from the build machine. The evidence pack therefore has no COVID clinical passage yet, only the week 31 IDSP COVID status note. Doctern withholds any finding that has no cited source, so the COVID flag and the contagion precautions need that guideline in the pack. To add it, put the guideline's URL and anchor phrases in [data/source_manifest.json](data/source_manifest.json) and run `python -m app.refresh --brief`.
