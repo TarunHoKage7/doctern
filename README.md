@@ -104,4 +104,12 @@ Run `python -m app.refresh --brief` to rebuild the evidence pack and write the w
 
 ## COVID-19 versus common cold case
 
-Arjun's fictional case has COVID-like symptoms, a household COVID contact, and chest X-ray report text. The doctor's plan is "common cold". The official ministry and ICMR COVID guideline PDFs could not be downloaded from the build machine. The evidence pack therefore has no COVID clinical passage yet, only the week 31 IDSP COVID status note. Doctern withholds any finding that has no cited source, so the COVID flag and the contagion precautions need that guideline in the pack. To add it, put the guideline's URL and anchor phrases in [data/source_manifest.json](data/source_manifest.json) and run `python -m app.refresh --brief`.
+Arjun's fictional case has COVID-like symptoms, a household COVID contact, and chest X-ray report text. The doctor's plan is "common cold" with a return to work tomorrow. In a live run on 26 September 2026, Doctern returned a material concern:
+
+- **Plausible secondary diagnosis.** COVID-19.
+- **Discrepancy.** COVID-19 was not considered despite the exposure and the imaging text.
+- **Contagion warning.** A return to work contradicts isolation needs.
+- **Suggested check.** A COVID-19 RT-PCR or rapid antigen test.
+
+That run was Gemma-only, because MedGemma timed out, and the page labels it that way. Its only citation is the IDSP COVID status note, which does not support the clinical advice. The official ministry and ICMR COVID guideline PDFs could not be downloaded from the build machine. Adding that guideline to [data/source_manifest.json](data/source_manifest.json) gives the precautions a proper source.
+
