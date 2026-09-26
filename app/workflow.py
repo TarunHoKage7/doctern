@@ -73,7 +73,12 @@ def validate(final: dict, case: dict, allowed_ids: set[str], med_matches: list[d
                               "questions": []}
     proposed = (case["doctor_plan"].get("proposed_diagnosis") or "").lower()
 
+    seen = set()
     for d in final.get("discrepancies", []):
+        key = (d["issue_type"], d["summary"].strip().lower())
+        if key in seen:
+            continue
+        seen.add(key)
         ev = [e for e in d["evidence_ids"] if e in allowed_ids]
         paths = _valid_paths(d["case_fact_paths"], case)
         if not paths:
@@ -84,7 +89,7 @@ def validate(final: dict, case: dict, allowed_ids: set[str], med_matches: list[d
             withheld.append({"item": d["summary"], "reason": "no valid evidence reference; shown as unresolved"})
         sections["discrepancies"].append({**d, "evidence_ids": ev, "case_fact_paths": paths})
 
-    for s in final.get("secondary_diagnoses", []):
+    for s in final.get("secondary_diagnoses", [])[:4]:
         ev = [e for e in s["evidence_ids"] if e in allowed_ids]
         paths = _valid_paths(s["case_fact_paths"], case)
         if s["condition"].lower() in proposed or (proposed and proposed in s["condition"].lower()):
@@ -165,7 +170,8 @@ def run(run_id: str) -> None:
         try:
             obj, audit = client.structured(system, user, schema)
         except ModelError as exc:
-            storage.event(run_id, stage, client.model, "failed", time.perf_counter() - t0, str(exc))
+            storage.event(run_id, stage, client.model, "failed", time.perf_counter() - t0,
+                          {"error": str(exc), "calls": getattr(exc, "calls", None)})
             raise
         storage.event(run_id, stage, client.model, "ok", time.perf_counter() - t0, audit)
         out.setdefault("model_calls", []).append({"stage": stage, "model": client.model,

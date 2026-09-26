@@ -26,7 +26,8 @@ case JSON ──> validate_input ──> bind_snapshot (immutable, dated evidenc
 | Role | Model | Runtime |
 |---|---|---|
 | Orchestration, lookup selection, assessment | Gemma 4 31B instruct (`gemma-4-31b-it`) | Gemini API, hosted, **online** |
-| Clinical review and final specialist review | MedGemma 4B instruct (`medgemma:4b`) | Ollama on loopback, **local** |
+| Clinical review and final specialist review | MedGemma 4B instruct (`medgemma:4b`) | Ollama on loopback, **local** (default) |
+| Same role, optional | MedGemma 27B (`medgemma-27b-it-dicom`) | Vertex AI Model Garden endpoint, **online**. Set `MEDGEMMA_BACKEND=vertex`. |
 
 The team chose hosted Gemma 4 31B for orchestration because it is the strongest Gemma 4 available. **The clinical loop therefore needs internet for the Gemma steps.** Setting `GEMMA_BACKEND=ollama` and `GEMMA_MODEL=gemma4:e2b` (or `gemma4:e4b`) switches orchestration to local Gemma 4. Offline operation of that configuration has not been verified in this build.
 
@@ -52,6 +53,8 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 Open http://127.0.0.1:8000. Pick a doctor and a case, then click **Review case**.
 
+Run one case from the command line with `python run_case.py data/cases/01-ravi-nsaid-dengue.json`.
+
 Run the contract tests with `python -m pytest -q tests`. They use mock model adapters and check the application logic only. They are not a real-model demonstration.
 
 ## Fictional cases
@@ -59,6 +62,22 @@ Run the contract tests with `python -m pytest -q tests`. They use mock model ada
 1. **Ravi** is NS1-positive with ibuprofen proposed for joint pain. The expected finding is a source-backed NSAID-in-dengue concern.
 2. **Meera** has mild dengue plus diabetes, with a guideline-consistent plan. No discrepancy should be invented.
 3. **Sanjay** is in Bengaluru Urban the week after the week 31 dengue outbreak, takes aspirin for coronary artery disease, and has unknown test results. A clarification creates a new revision and a fresh review.
+
+## What was verified on 26 September 2026
+
+These were genuine runs with hosted Gemma 4 31B and local MedGemma 4B, Q4_K_M quantization, on an RTX 5050 laptop GPU with 8 GB.
+
+| Case | Result | Wall time |
+|---|---|---|
+| Ravi | Material concern: ibuprofen with a positive NS1 test, citing the NCVBDC passage. It needed one resume after a truncated MedGemma output. | about 90 s |
+| Meera | No material discrepancy identified. Nothing was invented. | 17 s |
+| Sanjay | Material concern about continuing aspirin. Dengue was raised as a plausible secondary diagnosis using the dated week 31 Bengaluru Urban outbreak entry. It asked for the platelet count. | 49 s |
+
+- **Latency.** A warm MedGemma 4B call takes about 2 to 17 s. The first call loads the model and takes about 66 s. Each Gemma 4 31B call takes about 4 to 13 s.
+- **Quality.** MedGemma 4B output has visible errors. It overstates aspirin as "contraindicated", suggests shock without supporting findings, and garbles the disagreement text. The validation layer checks citations and case paths. It cannot check clinical correctness.
+- **Replay.** Ravi's run is saved as a recorded replay in [data/replays/demo-ravi.json](data/replays/demo-ravi.json).
+- **Not verified.** Offline operation was not tested, because Gemma runs through the hosted API. The Vertex MedGemma 27B adapter is written but has not been called yet.
+- **Tests.** The contract tests pass. They use mock adapters.
 
 ## Not implemented
 

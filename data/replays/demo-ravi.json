@@ -1,0 +1,498 @@
+{
+ "disposition": "material_concern",
+ "sections": {
+  "secondary_diagnoses": [
+   {
+    "condition": "dengue fever with thrombocytopenia",
+    "why": "The patient has a positive Dengue NS1 antigen, indicating dengue fever. A CBC is needed to assess platelet count, which is crucial for classifying dengue severity and guiding management. Thrombocytopenia is a common finding in dengue fever.",
+    "case_fact_paths": [
+     "presentation.test_results[0]"
+    ],
+    "evidence_ids": [
+     "dengue-groupA-antipyretic",
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate"
+    ]
+   },
+   {
+    "condition": "dengue fever with shock",
+    "why": "The patient has a positive Dengue NS1 antigen, indicating dengue fever. A tourniquet test is needed to assess for shock. Shock is a serious complication of dengue fever that requires immediate management.",
+    "case_fact_paths": [
+     "presentation.test_results[0]"
+    ],
+    "evidence_ids": [
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate"
+    ]
+   }
+  ],
+  "discrepancies": [
+   {
+    "issue_type": "guideline_conflict",
+    "summary": "Ibuprofen is contraindicated in dengue fever according to the NCVBDC guidelines. The doctor prescribed ibuprofen, an NSAID, which is explicitly avoided in dengue fever according to the NCVBDC guidelines.",
+    "why": "NCVBDC guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's rationale for recommending ibuprofen is not supported by the guidelines.",
+    "case_fact_paths": [
+     "doctor_plan.proposed_medications[0]",
+     "doctor_plan.proposed_diagnosis",
+     "presentation.test_results[0]"
+    ],
+    "evidence_ids": [
+     "dengue-groupA-antipyretic",
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ],
+    "status": "supported"
+   },
+   {
+    "issue_type": "missing_required_measurement",
+    "summary": "CBC and platelet count not ordered",
+    "why": "NCVBDC guidelines require assessment of CBC, including haematocrit and platelet count, for patients with suspected or confirmed dengue. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit.",
+    "case_fact_paths": [
+     "presentation.test_results"
+    ],
+    "evidence_ids": [
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ],
+    "status": "supported"
+   },
+   {
+    "issue_type": "missing_required_measurement",
+    "summary": "Random blood sugar (RBS) test not ordered",
+    "why": "NCVBDC guidelines recommend a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms.",
+    "case_fact_paths": [
+     "presentation.test_results"
+    ],
+    "evidence_ids": [
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ],
+    "status": "supported"
+   }
+  ],
+  "suggested_checks": [
+   {
+    "check": "Order a complete blood count (CBC) with platelet count and hematocrit.",
+    "why": "This is a standard part of dengue fever management to assess platelet count, hematocrit, and rule out other conditions.",
+    "evidence_ids": [
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ]
+   },
+   {
+    "check": "Assess for warning signs of severe dengue.",
+    "why": "These signs include severe abdominal pain, persistent vomiting, red spots on the skin, bleeding from the nose or gums, vomiting blood, drowsiness, and pale, cold skin. Early recognition of these signs is crucial for timely intervention.",
+    "evidence_ids": [
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ]
+   },
+   {
+    "check": "Assess for shock.",
+    "why": "A tourniquet test can be used to assess for shock. Shock is a serious complication of dengue fever that requires immediate management.",
+    "evidence_ids": [
+     "dengue-triage-parameters",
+     "dengue-warning-signs-education",
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic"
+    ]
+   }
+  ],
+  "questions": [
+   {
+    "field_path": "presentation.vitals",
+    "question": "What is the patient's blood pressure, pulse rate, and respiratory rate? These vital signs are required for triage and classification of dengue severity according to NCVBDC guidelines.",
+    "why_it_matters": "Blood pressure, pulse rate, and respiratory rate are required for triage and classification of dengue severity according to NCVBDC guidelines."
+   },
+   {
+    "field_path": "doctor_plan.proposed_treatment",
+    "question": "Why is ibuprofen being recommended instead of paracetamol? The NCVBDC guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen.",
+    "why_it_matters": "The doctor's rationale for recommending ibuprofen is not supported by the guidelines. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen."
+   }
+  ]
+ },
+ "withheld": [],
+ "disagreements": [
+  "The orchestrator assessment recommends ibuprofen, which is contraindicated in dengue fever. The independent assessment recommends paracetamol.",
+  "The orchestrator assessment recommends a tourniquet test to assess for shock. The independent assessment recommends a tourniquet test to assess for shock."
+ ],
+ "limitations": [
+  "No district surveillance coverage is mentioned in the case facts.",
+  "No information about the patient's history of previous dengue infections is available.",
+  "No information about the patient's travel history is available."
+ ],
+ "sources": [
+  {
+   "evidence_id": "dengue-groupA-antipyretic",
+   "snapshot_id": "snap-20260926T081318Z",
+   "source_kind": "guideline",
+   "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+   "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+   "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+   "published_at": "2023",
+   "retrieved_at": "2026-09-26",
+   "reporting_period_start": null,
+   "reporting_period_end": null,
+   "geography": "India (national)",
+   "condition_tags": [
+    "dengue",
+    "fever"
+   ],
+   "medication_tags": [
+    "paracetamol",
+    "aspirin",
+    "nsaid"
+   ],
+   "jurisdiction": "India",
+   "exact_excerpt": "Body temperature should be kept below 100°F. If the temperature goes beyond 100°F, give paracetamol. Paracetamol is available in tablet form or in syrup form. The recommended dose is 10 mg/kg/dose and should be administered in frequencies of not less than six hours. The maximum dose for adults is 4 gm/day. Avoid using aspirin or NSAIDs.",
+   "document_locator": "PDF page 56",
+   "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+   "local_document_id": "ncvbdc-dengue-2023"
+  },
+  {
+   "evidence_id": "dengue-classification-moderate",
+   "snapshot_id": "snap-20260926T081318Z",
+   "source_kind": "guideline",
+   "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+   "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+   "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+   "published_at": "2023",
+   "retrieved_at": "2026-09-26",
+   "reporting_period_start": null,
+   "reporting_period_end": null,
+   "geography": "India (national)",
+   "condition_tags": [
+    "dengue",
+    "warning signs",
+    "classification"
+   ],
+   "medication_tags": [],
+   "jurisdiction": "India",
+   "exact_excerpt": "Here the patient present with fever with warning symptoms and signs (Refer Box 2). This usually occurs near the end of febrile phase and preferably at defervescense. Moderate dengue is further subdivided as B1 and B2. The B1 involves patients with fever with other non- specific symptoms and warning signs whereas B2 involves patients with prior comorbidities and other high-risk factors.",
+   "document_locator": "PDF page 42",
+   "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+   "local_document_id": "ncvbdc-dengue-2023"
+  },
+  {
+   "evidence_id": "dengue-triage-parameters",
+   "snapshot_id": "snap-20260926T081318Z",
+   "source_kind": "guideline",
+   "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+   "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+   "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+   "published_at": "2023",
+   "retrieved_at": "2026-09-26",
+   "reporting_period_start": null,
+   "reporting_period_end": null,
+   "geography": "India (national)",
+   "condition_tags": [
+    "dengue",
+    "fever",
+    "triage",
+    "platelet",
+    "hematocrit"
+   ],
+   "medication_tags": [],
+   "jurisdiction": "India",
+   "exact_excerpt": "Following parameters should be assessed : • Duration of fever • Presence of warning signs • High-risk groups (co-morbidities and co-infection) • Tourniquet test • Vital signs including temperature, blood pressure, pulse rate, respiratory rate • Peripheral perfusion by palpation of pulse volume, and colour of extremities, and capillary refill time • Recommendations for CBC (including haematocrit and platelet count) and random blood sugar (RBS)",
+   "document_locator": "PDF page 55",
+   "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+   "local_document_id": "ncvbdc-dengue-2023"
+  },
+  {
+   "evidence_id": "dengue-warning-signs-education",
+   "snapshot_id": "snap-20260926T081318Z",
+   "source_kind": "guideline",
+   "title": "National Guidelines for Clinical Management of Dengue Fever 2023",
+   "publisher": "National Center for Vector Borne Diseases Control (NCVBDC), MoHFW, Government of India",
+   "source_url": "https://ncvbdc.mohfw.gov.in/Doc/National%20Guidelines%20for%20Clinical%20Management%20of%20Dengue%20Fever%202023.pdf",
+   "published_at": "2023",
+   "retrieved_at": "2026-09-26",
+   "reporting_period_start": null,
+   "reporting_period_end": null,
+   "geography": "India (national)",
+   "condition_tags": [
+    "dengue",
+    "warning signs",
+    "fever"
+   ],
+   "medication_tags": [],
+   "jurisdiction": "India",
+   "exact_excerpt": "Educate about warning signs and to report if they appear • Severe abdominal pain and persistent vomiting • Red spots patches on skin • Bleeding from nose and gums • Vomiting blood • Black tarry stools • Drowsiness or irritability • Pale, cold or clammy skin • Difficulty in Breathing",
+   "document_locator": "PDF page 56",
+   "content_sha256": "7c8ffbadaee6ebdb31c677e27c553915ea027aa168d0ca6ede890c44bbcb4407",
+   "local_document_id": "ncvbdc-dengue-2023"
+  }
+ ],
+ "assessments": {
+  "gemma": {
+   "candidate_conditions": [],
+   "candidate_discrepancies": [
+    {
+     "issue_type": "guideline_conflict",
+     "summary": "Ibuprofen is contraindicated in dengue fever",
+     "case_fact_paths": [
+      "doctor_plan.proposed_medications[0].name"
+     ],
+     "evidence_ids": [
+      "dengue-groupA-antipyretic"
+     ],
+     "rationale": "The doctor prescribed ibuprofen, an NSAID, which is explicitly avoided in dengue fever according to the NCVBDC guidelines."
+    },
+    {
+     "issue_type": "missing_required_measurement",
+     "summary": "CBC and platelet count not ordered",
+     "case_fact_paths": [
+      "presentation.test_results"
+     ],
+     "evidence_ids": [
+      "dengue-triage-parameters"
+     ],
+     "rationale": "NCVBDC guidelines require assessment of CBC, including haematocrit and platelet count, for patients with suspected or confirmed dengue."
+    }
+   ],
+   "missing_material_facts": [
+    {
+     "field_path": "presentation.vitals",
+     "why_it_matters": "Blood pressure, pulse rate, and respiratory rate are required for triage and classification of dengue severity according to NCVBDC guidelines."
+    }
+   ],
+   "supporting_evidence_refs": [
+    "dengue-groupA-antipyretic",
+    "dengue-triage-parameters"
+   ],
+   "conflicting_evidence_refs": [],
+   "unresolved_questions": [
+    "Whether the patient has any warning signs of severe dengue"
+   ]
+  },
+  "medgemma": {
+   "candidate_conditions": [],
+   "candidate_discrepancies": [],
+   "missing_material_facts": [
+    {
+     "field_path": "doctor_plan/proposed_treatment",
+     "why_it_matters": "The doctor's proposed treatment is inadequate for dengue fever with arthralgia. The guidelines recommend paracetamol for fever, but the doctor is recommending ibuprofen, which is an NSAID and is contraindicated in dengue fever. The guidelines also recommend rest and oral fluids, which are appropriate, but the doctor's plan lacks specific details about monitoring for warning signs and complications. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock"
+    },
+    {
+     "field_path": "doctor_plan/proposed_medications",
+     "why_it_matters": "The doctor's proposed medication, ibuprofen, is contraindicated in dengue fever. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock"
+    },
+    {
+     "field_path": "doctor_plan/rationale",
+     "why_it_matters": "The doctor's rationale for recommending ibuprofen is not supported by the guidelines. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock"
+    },
+    {
+     "field_path": "presentation/test_results",
+     "why_it_matters": "The test results show a positive Dengue NS1 antigen, which confirms the diagnosis of dengue fever. However, the doctor's proposed treatment does not address the need for further investigation and management of dengue fever. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock"
+    },
+    {
+     "field_path": "doctor_plan/proposed_diagnosis",
+     "why_it_matters": "The doctor's proposed diagnosis of 'dengue fever with arthralgia' is appropriate given the positive Dengue NS1 antigen. However, the doctor's plan does not address the need for further investigation and management of dengue fever. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock"
+    }
+   ],
+   "supporting_evidence_refs": [],
+   "conflicting_evidence_refs": [],
+   "unresolved_questions": []
+  },
+  "reconciled": true
+ },
+ "medication_check": {
+  "rule_version": "r1",
+  "matched_rules": [
+   {
+    "rule_id": "nsaid-when-dengue-considered",
+    "issue_type": "guideline_conflict",
+    "warning": "Proposed NSAID/aspirin while dengue is under consideration; the national guideline advises avoiding aspirin or NSAIDs in dengue.",
+    "evidence_ids": [
+     "dengue-groupA-antipyretic"
+    ],
+    "case_fact_paths": [
+     "doctor_plan.proposed_medications[0]",
+     "doctor_plan.proposed_diagnosis",
+     "presentation.test_results[0]"
+    ]
+   }
+  ],
+  "unknowns": [],
+  "scope_note": "Limited source-backed checks only; not a comprehensive safety check."
+ },
+ "lookups": {
+  "executed": [
+   {
+    "tool": "check_medication_facts",
+    "query": "ibuprofen in dengue fever",
+    "returned": [
+     "dengue-groupA-antipyretic"
+    ],
+    "medication_check": {
+     "rule_version": "r1",
+     "matched_rules": [
+      {
+       "rule_id": "nsaid-when-dengue-considered",
+       "issue_type": "guideline_conflict",
+       "warning": "Proposed NSAID/aspirin while dengue is under consideration; the national guideline advises avoiding aspirin or NSAIDs in dengue.",
+       "evidence_ids": [
+        "dengue-groupA-antipyretic"
+       ],
+       "case_fact_paths": [
+        "doctor_plan.proposed_medications[0]",
+        "doctor_plan.proposed_diagnosis",
+        "presentation.test_results[0]"
+       ]
+      }
+     ],
+     "unknowns": [],
+     "scope_note": "Limited source-backed checks only; not a comprehensive safety check."
+    }
+   },
+   {
+    "tool": "search_evidence",
+    "query": "dengue fever management guidelines",
+    "returned": [
+     "dengue-classification-moderate",
+     "dengue-groupA-antipyretic",
+     "dengue-triage-parameters"
+    ],
+    "medication_check": null
+   },
+   {
+    "tool": "search_evidence",
+    "query": "dengue warning signs",
+    "returned": [
+     "dengue-classification-moderate",
+     "dengue-warning-signs-education",
+     "dengue-triage-parameters"
+    ],
+    "medication_check": null
+   }
+  ],
+  "rejected": []
+ },
+ "execution": {
+  "run_id": "run-fb4321c4bddb",
+  "case_id": "demo-ravi",
+  "case_revision": 1,
+  "snapshot": {
+   "snapshot_id": "snap-20260926T081318Z",
+   "created_at": "2026-09-26T08:13:18.473767+00:00",
+   "coverage_notes": [
+    "District-level surveillance coverage is missing unless a surveillance record is listed.",
+    "No local report does not exclude a disease; old reports are dated context only."
+   ],
+   "failures": []
+  },
+  "models": {
+   "gemma": {
+    "model": "gemma-4-31b-it",
+    "runtime": "gemini_api (hosted, online)",
+    "digest": "hosted:gemma-4-31b-it",
+    "quantization": "provider-managed"
+   },
+   "medgemma": {
+    "model": "medgemma:4b",
+    "runtime": "ollama",
+    "family": "gemma3",
+    "parameter_size": "4.3B",
+    "quantization": "Q4_K_M",
+    "digest": "9fe4e9a6c9bda2d007bb595515550eafbc8e226622adff9257f3241eba334c4d"
+   }
+  },
+  "config": {
+   "gemma_backend": "gemini_api",
+   "gemma_model": "gemma-4-31b-it",
+   "medgemma_model": "medgemma:4b",
+   "generation": {
+    "temperature": 0.1,
+    "top_p": 0.9,
+    "seed": 7,
+    "num_predict": 2048,
+    "num_ctx": 8192
+   },
+   "limits": {
+    "initial_lookups": 3,
+    "reconcile_lookups": 1,
+    "max_passages": 6,
+    "schema_repairs": 1,
+    "max_questions": 2,
+    "max_secondary_dx": 2,
+    "max_discrepancies": 3
+   },
+   "call_timeout_s": 120.0,
+   "run_budget_s": 420.0,
+   "schema_version": "1",
+   "prompt_version": "p1",
+   "rule_version": "r1"
+  },
+  "model_calls": [
+   {
+    "stage": "gemma_lookup_plan",
+    "model": "gemma-4-31b-it",
+    "seconds": 9.15,
+    "attempts": 1
+   },
+   {
+    "stage": "gemma_assessment",
+    "model": "gemma-4-31b-it",
+    "seconds": 13.39,
+    "attempts": 1
+   },
+   {
+    "stage": "medgemma_assessment",
+    "model": "medgemma:4b",
+    "seconds": 11.32,
+    "attempts": 1
+   },
+   {
+    "stage": "reconcile_lookup",
+    "model": "gemma-4-31b-it",
+    "seconds": 5.66,
+    "attempts": 1
+   },
+   {
+    "stage": "reconcile_lookup",
+    "model": "gemma-4-31b-it",
+    "seconds": 5.72,
+    "attempts": 1
+   },
+   {
+    "stage": "medgemma_final_review",
+    "model": "medgemma:4b",
+    "seconds": 17.07,
+    "attempts": 1
+   }
+  ],
+  "raw_responses": {
+   "gemma_lookup_plan": [
+    "{\n  \"lookups\": [\n    {\n      \"tool\": \"check_medication_facts\",\n      \"query\": \"ibuprofen in dengue fever\",\n      \"reason\": \"Ibuprofen is an NSAID. In dengue fever, NSAIDs are generally contraindicated due to the risk of increased bleeding and interference with platelet function, which is particularly dangerous given the risk of hemorrhagic fever. I need to verify the current local guidelines for the same.\"\n    },\n    {\n      \"tool\": \"search_evidence\",\n      \"query\": \"dengue fever management guidelines\",\n      \"reason\": \"To verify the standard of care for pain and fever management in dengue fever, specifically regarding the same.\"\n    },\n    {\n      \"tool\": \"search_evidence\",\n    \"query\": \"dengue warning signs\",\n      \"reason\": \"The patient has severe joint pain and severe body aches. I need to check for warning signs that may indicate progression to severe dengue or dengue hemorrhagic fever.\"\n    }\n  ],\n  \"material_missing_fields\": [\n    \"patient.family_history\",\n    \"presentation.recent_travel_or_exposure\"\n  ]\n}\n```"
+   ],
+   "gemma_assessment": [
+    "{\n  \"candidate_conditions\": [],\n  \"candidate_discrepancies\": [\n    {\n      \"issue_type\": \"guideline_conflict\",\n      \"summary\": \"Ibuprofen is contraindicated in dengue fever\",\n      \"case_fact_paths\": [\n        \"doctor_plan.proposed_medications[0].name\"\n      ],\n      \"evidence_ids\": [\n        \"dengue-groupA-antipyretic\"\n      ],\n      \"rationale\": \"The doctor prescribed ibuprofen, an NSAID, which is explicitly avoided in dengue fever according to the NCVBDC guidelines.\"\n    },\n    {\n      \"issue_type\": \"missing_required_measurement\",\n      \"summary\": \"CBC and platelet count not ordered\",\n      \"case_fact_paths\": [\n        \"presentation.test_results\"\n      ],\n        \"evidence_ids\": [\n        \"dengue-triage-parameters\"\n      ],\n      \"rationale\": \"NCVBDC guidelines require assessment of CBC, including haematocrit and platelet count, for patients with suspected or confirmed dengue.\"\n    }\n    ],\n  \"missing_material_facts\": [\n    {\n      \"field_path\": \"presentation.vitals\",\n      \"why_it_matters\": \"Blood pressure, pulse rate, and respiratory rate are required for triage and classification of dengue severity according to NCVBDC guidelines.\"\n    }\n  ],\n  \"supporting_evidence_refs\": [\n    \"dengue-groupA-antipyretic\",\n    \"dengue-triage-parameters\"\n  ],\n  \"conflicting_evidence_refs\": [],\n  \"unresolved_questions\": [\n    \"Whether the patient has any warning signs of severe dengue\"\n  ]\n}\n```"
+   ],
+   "medgemma_assessment": [
+    "{\n \"missing_material_facts\": [\n  {\n   \"field_path\": \"doctor_plan/proposed_treatment\",\n   \"why_it_matters\": \"The doctor's proposed treatment is inadequate for dengue fever with arthralgia. The guidelines recommend paracetamol for fever, but the doctor is recommending ibuprofen, which is an NSAID and is contraindicated in dengue fever. The guidelines also recommend rest and oral fluids, which are appropriate, but the doctor's plan lacks specific details about monitoring for warning signs and complications. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock\"\n  },\n  {\n   \"field_path\": \"doctor_plan/proposed_medications\",\n   \"why_it_matters\": \"The doctor's proposed medication, ibuprofen, is contraindicated in dengue fever. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock\"\n  },\n  {\n   \"field_path\": \"doctor_plan/rationale\",\n   \"why_it_matters\": \"The doctor's rationale for recommending ibuprofen is not supported by the guidelines. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock\"\n  },\n  {\n   \"field_path\": \"presentation/test_results\",\n   \"why_it_matters\": \"The test results show a positive Dengue NS1 antigen, which confirms the diagnosis of dengue fever. However, the doctor's proposed treatment does not address the need for further investigation and management of dengue fever. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock\"\n  },\n  {\n   \"field_path\": \"doctor_plan/proposed_diagnosis\",\n   \"why_it_matters\": \"The doctor's proposed diagnosis of 'dengue fever with arthralgia' is appropriate given the positive Dengue NS1 antigen. However, the doctor's plan does not address the need for further investigation and management of dengue fever. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit, which is a standard part of dengue fever management. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a tourniquet test to assess for shock\"\n  }\n ]\n}"
+   ],
+   "reconcile_lookup": [
+    " {\n  \"lookups\": [\n    {\n      \"tool\": \"check_medication_facts\",\n      \"query\": \"ibuprofen in dengue fever\",\n      \"reason\": \"The doctor prescribed ibuprofen for joint pain in a patient with confirmed dengue fever (NS1 positive). Both previous analysis passes indicate that NSAIDs like ibuprofen are contraindicated in dengue due to the risk of bleeding/hemorrhage. I need to verify this specific contraindication using the medication facts tool to confirm the guideline conflict.\"\n    }\n  ],\n  \"material_missing_fields\": [\n    \"presentation.vitals\",\n    \"presentation.test_results\"\n  ]\n}"
+   ],
+   "medgemma_final_review": [
+    "{\"disposition\": \"material_concern\", \"secondary_diagnoses\": [\n  {\"condition\": \"dengue fever with thrombocytopenia\", \"why\": \"The patient has a positive Dengue NS1 antigen, indicating dengue fever. A CBC is needed to assess platelet count, which is crucial for classifying dengue severity and guiding management. Thrombocytopenia is a common finding in dengue fever.\",\"case_fact_paths\": [\"presentation.test_results[0]\",\"doctor_plan/proposed_diagnosis\",\"doctor_plan/proposed_treatment\",\"doctor_plan/rationale\"],\"evidence_ids\": [\"dengue-groupA-antipyretic\",\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\"]},\n  {\"condition\": \"dengue fever with shock\", \"why\": \"The patient has a positive Dengue NS1 antigen, indicating dengue fever. A tourniquet test is needed to assess for shock. Shock is a serious complication of dengue fever that requires immediate management.\",\"case_fact_paths\": [\"presentation.test_results[0]\",\"doctor_plan/proposed_diagnosis\",\"doctor_plan/proposed_treatment\",\"doctor_plan/rationale\"],\"evidence_ids\": [\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\"]}\n], \"discrepancies\": [\n  {\"issue_type\": \"guideline_conflict\", \"summary\": \"Ibuprofen is contraindicated in dengue fever according to the NCVBDC guidelines. The doctor prescribed ibuprofen, an NSAID, which is explicitly avoided in dengue fever according to the NCVBDC guidelines.\", \"why\": \"NCVBDC guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen. The doctor's rationale for recommending ibuprofen is not supported by the guidelines.\", \"case_fact_paths\": [\"doctor_plan.proposed_medications[0]\",\"doctor_plan.proposed_diagnosis\",\"presentation.test_results[0]\"],\"evidence_ids\": [\"dengue-groupA-antipyretic\",\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"], \"status\": \"supported\"},\n  {\"issue_type\": \"missing_required_measurement\", \"summary\": \"CBC and platelet count not ordered\", \"why\": \"NCVBDC guidelines require assessment of CBC, including haematocrit and platelet count, for patients with suspected or confirmed dengue. The doctor's plan does not mention the need for a CBC (complete blood count) to assess platelet count and hematocrit.\", \"case_fact_paths\": [\"presentation.test_results\"],\"evidence_ids\": [\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"], \"status\": \"supported\"},\n  {\"issue_type\": \"missing_required_measurement\", \"summary\": \"Random blood sugar (RBS) test not ordered\", \"why\": \"NCVBDC guidelines recommend a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms. The doctor's plan does not mention the need for a random blood sugar (RBS) test to rule out other conditions that can cause similar symptoms.\", \"case_fact_paths\": [\"presentation.test_results\"],\"evidence_ids\": [\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"], \"status\": \"supported\"}\n], \"suggested_checks\": [\n  {\"check\": \"Order a complete blood count (CBC) with platelet count and hematocrit.\", \"why\": \"This is a standard part of dengue fever management to assess platelet count, hematocrit, and rule out other conditions.\", \"evidence_ids\": [\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"]},\n  {\"check\": \"Assess for warning signs of severe dengue.\", \"why\": \"These signs include severe abdominal pain, persistent vomiting, red spots on the skin, bleeding from the nose or gums, vomiting blood, drowsiness, and pale, cold skin. Early recognition of these signs is crucial for timely intervention.\", \"evidence_ids\": [\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"]},\n  {\"check\": \"Assess for shock.\", \"why\": \"A tourniquet test can be used to assess for shock. Shock is a serious complication of dengue fever that requires immediate management.\", \"evidence_ids\": [\"dengue-triage-parameters\",\"dengue-warning-signs-education\",\"dengue-classification-moderate\",\"dengue-groupA-antipyretic\"]}\n], \"questions\": [\n  {\"field_path\": \"presentation.vitals\", \"question\": \"What is the patient's blood pressure, pulse rate, and respiratory rate? These vital signs are required for triage and classification of dengue severity according to NCVBDC guidelines.\", \"why_it_matters\": \"Blood pressure, pulse rate, and respiratory rate are required for triage and classification of dengue severity according to NCVBDC guidelines.\"},\n  {\"field_path\": \"doctor_plan.proposed_treatment\", \"question\": \"Why is ibuprofen being recommended instead of paracetamol? The NCVBDC guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen.\", \"why_it_matters\": \"The doctor's rationale for recommending ibuprofen is not supported by the guidelines. The guidelines recommend paracetamol for fever, not NSAIDs like ibuprofen.\"}\n], \"disagreements\": [\n  \"The orchestrator assessment recommends ibuprofen, which is contraindicated in dengue fever. The independent assessment recommends paracetamol.\",\n  \"The orchestrator assessment recommends a tourniquet test to assess for shock. The independent assessment recommends a tourniquet test to assess for shock.\"\n], \"limitations\": [\n  \"No district surveillance coverage is mentioned in the case facts.\",\n  \"No information about the patient's history of previous dengue infections is available.\",\n  \"No information about the patient's travel history is available.\"\n]\n}"
+   ]
+  },
+  "created_at": "2026-09-26T08:21:05.311294+00:00",
+  "completed_at": "2026-09-26T08:22:50.303468+00:00",
+  "mode": "live_local",
+  "technical_status": "completed"
+ }
+}

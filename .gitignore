@@ -8,3 +8,5 @@ data/raw/*.txt
 .pytest_cache/
 server.log
 data/raw/
+server.err.log
+meera.out

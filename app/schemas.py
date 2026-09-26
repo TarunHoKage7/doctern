@@ -156,41 +156,41 @@ class LookupRequest(Strict):
     tool: ToolName
     query: str = Field(max_length=200)
     source_kinds: list[SourceKind] = Field(default_factory=list)
-    reason: str = Field(max_length=300)
+    reason: str = Field(max_length=800)
 
 
 class LookupPlan(Strict):
-    lookups: list[LookupRequest] = Field(max_length=4)
-    material_missing_fields: list[str] = Field(default_factory=list, max_length=4)
+    lookups: list[LookupRequest] = Field(default_factory=list)
+    material_missing_fields: list[str] = Field(default_factory=list)
 
 
 class CandidateCondition(Strict):
     condition: str
     case_fact_paths: list[str]
     evidence_ids: list[str]
-    rationale: str = Field(max_length=500)
+    rationale: str = Field(max_length=1500)
 
 
 class CandidateDiscrepancy(Strict):
     issue_type: IssueType
-    summary: str = Field(max_length=300)
+    summary: str = Field(max_length=600)
     case_fact_paths: list[str]
     evidence_ids: list[str]
-    rationale: str = Field(max_length=500)
+    rationale: str = Field(max_length=1500)
 
 
 class MissingFact(Strict):
     field_path: str
-    why_it_matters: str = Field(max_length=300)
+    why_it_matters: str = Field(max_length=800)
 
 
 class ModelAssessment(Strict):
-    candidate_conditions: list[CandidateCondition] = Field(default_factory=list, max_length=3)
-    candidate_discrepancies: list[CandidateDiscrepancy] = Field(default_factory=list, max_length=4)
-    missing_material_facts: list[MissingFact] = Field(default_factory=list, max_length=3)
+    candidate_conditions: list[CandidateCondition] = Field(default_factory=list)
+    candidate_discrepancies: list[CandidateDiscrepancy] = Field(default_factory=list)
+    missing_material_facts: list[MissingFact] = Field(default_factory=list)
     supporting_evidence_refs: list[str] = Field(default_factory=list)
     conflicting_evidence_refs: list[str] = Field(default_factory=list)
-    unresolved_questions: list[str] = Field(default_factory=list, max_length=3)
+    unresolved_questions: list[str] = Field(default_factory=list)
 
 
 Disposition = Literal["material_concern", "no_material_discrepancy_identified",
@@ -227,12 +227,12 @@ class Question(Strict):
 
 class FinalReview(Strict):
     disposition: Disposition
-    secondary_diagnoses: list[SecondaryDiagnosis] = Field(default_factory=list, max_length=2)
-    discrepancies: list[ReviewDiscrepancy] = Field(default_factory=list, max_length=3)
-    suggested_checks: list[SuggestedCheck] = Field(default_factory=list, max_length=3)
-    questions: list[Question] = Field(default_factory=list, max_length=2)
-    disagreements: list[str] = Field(default_factory=list, max_length=3)
-    limitations: list[str] = Field(default_factory=list, max_length=4)
+    secondary_diagnoses: list[SecondaryDiagnosis] = Field(default_factory=list)
+    discrepancies: list[ReviewDiscrepancy] = Field(default_factory=list)
+    suggested_checks: list[SuggestedCheck] = Field(default_factory=list)
+    questions: list[Question] = Field(default_factory=list)
+    disagreements: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------- API envelopes
