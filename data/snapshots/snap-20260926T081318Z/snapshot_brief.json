@@ -1,0 +1,80 @@
+{
+ "snapshot_id": "snap-20260926T081318Z",
+ "created_at": "2026-09-26T09:10:22.626949+00:00",
+ "models": {
+  "gemma": {
+   "model": "gemma-4-31b-it",
+   "runtime": "gemini_api (hosted, online)",
+   "digest": "hosted:gemma-4-31b-it",
+   "quantization": "provider-managed"
+  },
+  "medgemma": {
+   "model": "medgemma:4b",
+   "runtime": "ollama",
+   "family": "gemma3",
+   "parameter_size": "4.3B",
+   "quantization": "Q4_K_M",
+   "digest": "9fe4e9a6c9bda2d007bb595515550eafbc8e226622adff9257f3241eba334c4d"
+  }
+ },
+ "review_status": "not_needed",
+ "medgemma_error": null,
+ "observations": [
+  {
+   "statement": "In Bengaluru Urban, Karnataka, 10 cases of fever with myalgia were reported from Village Kengeri, Sub-District Bengaluru South, and all 10 blood samples tested positive for Dengue by NS1 Antigen ELISA on 30-07-2026.",
+   "kind": "regional_observation",
+   "geography": "Bengaluru Urban, Karnataka",
+   "reporting_period": "2026-07-27 to 2026-08-02",
+   "evidence_ids": [
+    "idsp-w31-bengaluru-urban-dengue"
+   ],
+   "has_medical_implication": false
+  },
+  {
+   "statement": "17 States-UTs submitted outbreak reports (including NIL reports) for the reporting period of 27th July 2026 to 2nd August 2026.",
+   "kind": "regional_observation",
+   "geography": "India",
+   "reporting_period": "2026-07-27 to 2026-08-02",
+   "evidence_ids": [
+    "idsp-w31-reporting-status"
+   ],
+   "has_medical_implication": false
+  },
+  {
+   "statement": "No States-UTs submitted 'NIL' outbreak reports for the period 27th July 2026 to 2nd August 2026.",
+   "kind": "regional_observation",
+   "geography": "India",
+   "reporting_period": null,
+   "evidence_ids": [
+    "idsp-w31-reporting-status"
+   ],
+   "has_medical_implication": false
+  },
+  {
+   "statement": "The report does not provide outbreak data for all States-UTs, as only 17 submitted reports.",
+   "kind": "coverage_gap",
+   "geography": "India",
+   "reporting_period": "2026-07-27 to 2026-08-02",
+   "evidence_ids": [
+    "idsp-w31-reporting-status"
+   ],
+   "has_medical_implication": false
+  }
+ ],
+ "omitted": [],
+ "rejected_lookups": [],
+ "passages_used": [
+  "idsp-w31-reporting-status",
+  "idsp-w31-covid-status-note",
+  "idsp-w31-bengaluru-urban-dengue"
+ ],
+ "raw_responses": {
+  "plan": [
+   "{\"lookups\": [{\"tool\": \"search_evidence\", \"query\": \"India dengue surveillance 2024 seasonal trends\", \"source_kinds\": [\"surveillance\", \"seasonal_reference\"], \"reason\": \"To identify current seasonal trends and regional spikes in dengue cases across India to provide timely clinical context for doctors.\"}, {\"tool\": \"search_evidence\", \"query\": \"India National Vector Borne Disease Control Programme (NVBDCP) dengue coverage limits\", \"source_kinds\": [\"surveillance\", \"regulatory_notice\"], \"reason\": \"To determine if there are specific regional coverage limits or gaps in diagnostic availability that doctors should be aware of.\"}], \"material_missing_fields\": []}"
+  ],
+  "write": [
+   " {\n  \"observations\": [\n    {\n      \"statement\": \"In Bengaluru Urban, Karnataka, 10 cases of fever with myalgia were reported from Village Kengeri, Sub-District Bengaluru South, and all 10 blood samples tested positive for Dengue by NS1 Antigen ELISA on 30-07-2026.\",\n      \"kind\": \"regional_observation\",\n      \"geography\": \"Bengaluru Urban, Karnataka\",\n      \"reporting_period\": \"2026-07-27 to 2026-08-02\",\n      \"evidence_ids\": [\n        \"idsp-w31-bengaluru-urban-dengue\"\n      ],\n      \"has_medical_implication\": false\n    },\n    {\n      \"statement\": \"17 States-UTs submitted outbreak reports (including NIL reports) for the reporting period of 27th July 2026 to 2nd August 2026.\",\n      \"kind\": \"regional_observation\",\n      \"geography\": \"India\",\n      \"reporting_period\": \"2026-07-27 to 2026-08-02\",\n      \"evidence_ids\": [\n        \"idsp-w31-reporting-status\"\n      ],\n      \"has_medical_implication\": false\n    },\n    {\n      \"statement\": \"No States-UTs submitted 'NIL' outbreak reports for the period 27th July 2026 to 2nd August 2026.\",\n      \"kind\": \"regional_observation\",\n      \"geography\": \"India\",\n      \"evidence_ids\": [\n        \"idsp-w31-reporting-status\"\n      ],\n      \"has_medical_implication\": false\n    },\n    {\n      \"statement\": \"The report does not provide outbreak data for all States-UTs, as only 17 submitted reports.\",\n      \"kind\": \"coverage_gap\",\n      \"geography\": \"India\",\n      \"reporting_period\": \"2026-07-27 to 2026-08-02\",\n      \"evidence_ids\": [\n        \"idsp-w31-reporting-status\"\n      ],\n      \"has_medical_implication\": false\n    }\n  ]\n}"
+  ]
+ },
+ "note": "Model-written summary. The cited original passages are authoritative."
+}

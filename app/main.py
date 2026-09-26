@@ -65,6 +65,15 @@ def evidence_status():
                                           "document_locator")} for r in snap.records.values()]}
 
 
+@app.get("/api/evidence/brief")
+def evidence_brief():
+    from .research_brief import load_brief
+    b = load_brief(current_snapshot_id())
+    if not b:
+        raise HTTPException(404, "no brief for the current snapshot; run python -m app.refresh --brief")
+    return {k: b[k] for k in ("snapshot_id", "created_at", "models", "review_status", "observations", "omitted", "note")}
+
+
 @app.get("/api/evidence/{evidence_id}")
 def get_evidence(evidence_id: str, snapshot_id: str | None = None):
     snap = load_snapshot(snapshot_id or current_snapshot_id())

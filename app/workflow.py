@@ -54,6 +54,16 @@ def passages_block(passages: list[dict]) -> str:
         f"{p['document_locator']})\n{p['exact_excerpt']}" for p in passages) or "(no passages retrieved)"
 
 
+def brief_block(snapshot_id: str) -> str:
+    from .research_brief import load_brief
+    b = load_brief(snapshot_id)
+    if not b or not b["observations"]:
+        return ""
+    lines = [f"- {o['statement']} [{', '.join(o['evidence_ids'])}]" for o in b["observations"]]
+    return ("\n\nWEEKLY EVIDENCE SUMMARY (model-written context; the cited passages are authoritative; "
+            "surveillance never establishes a patient's diagnosis):\n" + "\n".join(lines))
+
+
 def case_block(case: dict, profile: dict) -> str:
     return ("DOCTOR PROFILE (tailors explanation only; does not decide correctness):\n" + canonical(profile)
             + "\n\nCASE (JSON; null = unknown):\n" + json.dumps(case, indent=1, ensure_ascii=False))
@@ -220,12 +230,14 @@ def run(run_id: str) -> None:
             elif stage == "gemma_assessment":
                 out["gemma_assessment"] = call(stage, gemma, prompt("gemma_assess"),
                                                case_block(case, profile) + "\n\nEVIDENCE PASSAGES:\n"
-                                               + passages_block(out["passages"]), ModelAssessment)
+                                               + passages_block(out["passages"]) + brief_block(snap.snapshot_id),
+                                               ModelAssessment)
             elif stage == "medgemma_assessment":
                 try:
                     out["medgemma_assessment"] = call(stage, med, prompt("medgemma_assess"),
                                                       case_block(case, profile) + "\n\nEVIDENCE PASSAGES:\n"
-                                                      + passages_block(out["passages"]), ModelAssessment)
+                                                      + passages_block(out["passages"]) + brief_block(snap.snapshot_id),
+                                                      ModelAssessment)
                 except ModelError as exc:
                     # Degraded mode: Gemma finishes the review alone; clearly labelled, never "no discrepancy".
                     out["medgemma_assessment"] = None

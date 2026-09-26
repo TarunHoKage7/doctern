@@ -51,6 +51,12 @@ async function init() {
     (failures ? ` <span class="unknown">Unavailable sources: ${esc(failures)} (no district surveillance coverage).</span>` : "");
   loadCase(0);
   health();
+  try {
+    const b = await api("/api/evidence/brief");
+    $("snapInfo").innerHTML += `<details><summary>This week's evidence summary (${b.observations.length} points, ${esc(b.review_status.replaceAll("_", " "))})</summary><ul>` +
+      b.observations.map((o) => `<li>${esc(o.statement)} <span class="facts">${esc(o.evidence_ids.join(", "))}</span></li>`).join("") +
+      `</ul><p class="muted">Written by Gemma 4 from the pack above. The original passages always win.</p></details>`;
+  } catch { /* no brief yet */ }
 }
 function loadCase(i) {
   const c = cases[i];

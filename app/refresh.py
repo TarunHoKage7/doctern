@@ -112,6 +112,12 @@ def refresh(do_fetch: bool) -> dict:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="re-download every manifest source")
-    out = refresh(ap.parse_args().fetch)
+    ap.add_argument("--brief", action="store_true", help="also write the Gemma/MedGemma weekly brief")
+    args = ap.parse_args()
+    out = refresh(args.fetch)
+    if out["published"] and args.brief:
+        from .research_brief import build
+        b = build(out["snapshot_id"])
+        out["brief"] = {"observations": len(b["observations"]), "review_status": b["review_status"]}
     print(json.dumps(out, indent=1))
     sys.exit(0 if out["published"] else 1)
