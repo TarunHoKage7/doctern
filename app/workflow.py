@@ -171,8 +171,25 @@ def run(run_id: str) -> None:
     gemma, med = GemmaClient(), MedGemmaClient()
     storage.update_run(run_id, status="running")
 
+    times = out.setdefault("times", {})
+    summ = out.setdefault("summaries", {})
+
+    def persist_state(**extra):
+        storage.update_run(run_id, state_json=json.dumps(state, ensure_ascii=False), **extra)
+
+    def mark(name, actor):
+        times[name] = {"start": time.time(), "end": None, "status": "running", "actor": actor}
+        persist_state()
+
+    def finish(name, status="done"):
+        if name in times and times[name]["end"] is None:
+            times[name]["end"] = time.time()
+            times[name]["status"] = status
+
     def save(stage):
         state["done"].append(stage)
+        finish(stage)
+        summ[stage] = summarize(stage, out)
         storage.update_run(run_id, stage=stage, state_json=json.dumps(state, ensure_ascii=False))
 
     def budget():
@@ -182,13 +199,20 @@ def run(run_id: str) -> None:
     def call(stage, client, system, user, schema):
         budget()
         storage.update_run(run_id, stage=stage + ":running")
+        mark(stage, client.model)
         t0 = time.perf_counter()
         try:
             obj, audit = client.structured(system, user, schema)
         except ModelError as exc:
+            finish(stage, "failed")
+            persist_state()
             storage.event(run_id, stage, client.model, "failed", time.perf_counter() - t0,
                           {"error": str(exc), "calls": getattr(exc, "calls", None)})
             raise
+        finish(stage)
+        if stage not in STAGES:
+            summ[stage] = summarize(stage, out, obj.model_dump())
+        persist_state()
         storage.event(run_id, stage, client.model, "ok", time.perf_counter() - t0, audit)
         out.setdefault("model_calls", []).append({"stage": stage, "model": client.model,
                                                    "seconds": round(time.perf_counter() - t0, 2),
@@ -201,6 +225,7 @@ def run(run_id: str) -> None:
         for stage in STAGES:
             if stage in state["done"]:
                 continue
+            mark(stage, "app")
             if stage == "validate_input":
                 CaseRequest.model_validate(case)
             elif stage == "bind_snapshot":
@@ -343,15 +368,74 @@ def run(run_id: str) -> None:
                 if out["result"]["disposition"] == "no_material_discrepancy_identified":
                     out["result"]["message"] = NO_DISCREPANCY_MESSAGE
             elif stage == "persist_result":
+                finish(stage)
+                summ[stage] = summarize(stage, out)
                 result = build_result(run_id, row, case, out)
                 storage.update_run(run_id, status="completed", result_json=json.dumps(result, ensure_ascii=False),
                                    completed_at=storage.now())
             save(stage)
     except Exception as exc:  # noqa: BLE001 - failure is persisted and shown, never turned into "no discrepancy"
         state["elapsed_before"] = state.get("elapsed_before", 0) + time.perf_counter() - t_start
+        for v in times.values():
+            if v["end"] is None:
+                v["end"], v["status"] = time.time(), "failed"
         storage.update_run(run_id, status="failed", state_json=json.dumps(state, ensure_ascii=False),
                            error=f"{type(exc).__name__}: {exc}")
         storage.event(run_id, "run", "app", "failed", None, traceback.format_exc()[-2000:])
+
+
+PLURAL = {"alternative diagnosis": "alternative diagnoses", "discrepancy": "discrepancies"}
+
+
+def _n(x, word):
+    return f"{x} {word if x == 1 else PLURAL.get(word, word + 's')}"
+
+
+def summarize(stage: str, out: dict, obj: dict | None = None) -> str:
+    """One plain-language line describing what a step actually produced."""
+    try:
+        if stage == "validate_input":
+            return "Case checked against the schema; unknowns kept as unknown"
+        if stage == "bind_snapshot":
+            return "Evidence pack " + out["snapshot"]["snapshot_id"] + " fixed for this run"
+        if stage == "gemma_lookup_plan":
+            p = out["plan"]
+            return (_n(len(p["lookups"]), "lookup") + " planned: "
+                    + "; ".join(f"{l['tool']} '{l['query']}'" for l in p["lookups"][:3]))
+        if stage == "execute_local_lookups":
+            rej = len(out["lookups"]["rejected"])
+            mc = out["medication_check"]["matched_rules"]
+            return (_n(len(out["passages"]), "passage") + " found, " + _n(len(mc), "medicine rule")
+                    + " matched" + (f", {rej} request(s) refused" if rej else ""))
+        if stage in ("gemma_assessment", "medgemma_assessment"):
+            a = out.get(stage)
+            if a is None:
+                return "Unavailable: " + out.get("medgemma_unavailable", "model did not respond")[:120]
+            return (_n(len(a["candidate_discrepancies"]), "possible problem") + ", "
+                    + _n(len(a["candidate_conditions"]), "alternative diagnosis") + ", "
+                    + _n(len(a["missing_material_facts"]), "missing fact"))
+        if stage == "reconcile_lookup" and obj:
+            return "; ".join(f"{l['tool']} '{l['query']}'" for l in obj["lookups"][:1]) or "No extra lookup needed"
+        if stage in ("medgemma_final_review", "gemma_fallback_review") and obj:
+            return (obj["disposition"].replace("_", " ") + ": " + _n(len(obj["discrepancies"]), "discrepancy")
+                    + ", " + _n(len(obj["suggested_checks"]), "check") + ", " + _n(len(obj["questions"]), "question"))
+        if stage == "reconcile_if_needed":
+            return "Concern or disagreement found; final review ran" if out.get("reconciled") else \
+                "No concern and no disagreement; final review not needed"
+        if stage == "verify_result":
+            v = out.get("verification")
+            if not v:
+                return "Nothing to verify"
+            return (_n(len(v["removed"]), "item") + " removed as unsupported; disagreement text checked")
+        if stage == "validate_result":
+            r = out["result"]
+            return ("Result: " + r["disposition"].replace("_", " ") + "; "
+                    + _n(len(r["withheld"]), "item") + " withheld for missing sources")
+        if stage == "persist_result":
+            return "Advice saved and shown to the doctor"
+    except (KeyError, TypeError):
+        return ""
+    return ""
 
 
 def build_result(run_id: str, row: dict, case: dict, out: dict) -> dict:
@@ -368,6 +452,7 @@ def build_result(run_id: str, row: dict, case: dict, out: dict) -> dict:
             "run_id": run_id, "case_id": case["case_id"], "case_revision": case["revision"],
             "snapshot": out.get("snapshot"), "models": json.loads(row["state_json"] or "{}").get("identities")
             or out.get("identities"), "config": CONFIG_SNAPSHOT, "model_calls": out.get("model_calls", []),
+            "timeline": out.get("times", {}), "summaries": out.get("summaries", {}),
             "raw_responses": out.get("raw_responses", {}), "created_at": row["created_at"],
             "completed_at": storage.now(), "mode": "live_local", "technical_status": "completed"},
     }

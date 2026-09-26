@@ -148,7 +148,15 @@ def get_review(run_id: str):
     if not row:
         raise HTTPException(404, "run not found")
     stage = (row["stage"] or "").split(":")[0]
+    result = json.loads(row["result_json"]) if row["result_json"] else None
+    st_out = json.loads(row["state_json"] or "{}").get("out", {})
+    ex = (result or {}).get("execution", {})
+    timeline = ex.get("timeline") or st_out.get("times") or {}
+    summaries = ex.get("summaries") or st_out.get("summaries") or {}
     return {"run_id": run_id, "status": row["status"], "stage": row["stage"],
+            "timeline": timeline, "summaries": summaries,
+            "model_calls": ex.get("model_calls") or st_out.get("model_calls") or [],
+            "server_now": __import__("time").time(),
             "stage_label": workflow.STAGE_LABEL.get(stage, stage), "mode": row["mode"],
             "error": row["error"], "case": json.loads(row["case_json"]),
             "result": json.loads(row["result_json"]) if row["result_json"] else None,
@@ -180,7 +188,18 @@ def clarify(run_id: str, req: ClarificationRequest):
         ok, parent = resolve_path(case, parent_path) if parent_path else (True, case)
         if not ok or not isinstance(parent, dict) or leaf not in parent:
             raise HTTPException(422, f"unknown field {a.field_path}")
+        before = copy.deepcopy(parent[leaf])
         parent[leaf] = a.value
+        try:
+            CaseRequest.model_validate(case)
+        except Exception:  # noqa: BLE001 - plain or spoken answer that doesn't fit the typed field
+            parent[leaf] = before
+            if not isinstance(a.value, str) or not a.value.strip():
+                raise HTTPException(422, f"answer for {a.field_path} does not fit that field")
+            q = a.question or a.field_path
+            line = f"Doctor answer to '{q}': {a.value.strip()}"
+            notes = case["presentation"].get("notes")
+            case["presentation"]["notes"] = (notes + "\n" if notes else "") + line
     case["revision"] += 1  # new immutable revision; old review is not reused
     return _create(CaseRequest.model_validate(case), "live_local", req.client_request_id)
 

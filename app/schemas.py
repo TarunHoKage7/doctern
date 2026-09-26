@@ -254,6 +254,7 @@ class ReviewRequest(Strict):
 class ClarificationAnswer(Strict):
     field_path: str
     value: object
+    question: Optional[str] = None
 
 
 class ClarificationRequest(Strict):

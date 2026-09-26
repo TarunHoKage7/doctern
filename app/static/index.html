@@ -21,9 +21,31 @@
     <p>Gemma 4 organizes the case and chooses local evidence lookups. MedGemma reviews independently and performs the final specialist review of any contested point. The app controls the sequence, and a fresh Gemma check removes anything unsupported before you see it. It is designed to run fully on this machine; this demo calls Gemma 4 through the online API.</p>
   </div>
   <div class="future">
-    <h3>Planned voice intake <span class="tag">not implemented</span></h3>
+    <h3>Voice <span class="tag">answers: working</span> <span class="tag">full intake: next build</span></h3>
     <ol class="flow"><li>Speech</li><li>Structured case</li><li>Material clarification</li><li>Clinical review</li></ol>
-    <p class="muted">This prototype consumes structured JSON. There is no microphone in this build.</p>
+    <p class="muted">Doctors can speak their answers to the review's questions (browser speech recognition). Full spoken case intake is the next build; cases are entered as structured JSON today.</p>
+  </div>
+</section>
+
+<section class="lane">
+  <div class="lanehead"><div><h2>Periodic research pipeline</h2><p class="muted" id="researchMeta"></p></div></div>
+  <div class="steps" id="researchSteps"></div>
+</section>
+
+<section class="lane" id="doctorPipe" hidden>
+  <div class="lanehead">
+    <div><h2>Doctor second opinion pipeline</h2><p class="muted" id="pipeStatus"></p></div>
+    <div class="row">
+      <button id="pipeRestart">Restart</button>
+      <button id="pipeToggle" class="primary">Play</button>
+      <label class="inline">Speed <select id="pipeSpeed"><option value="1">1x</option><option value="5" selected>5x</option><option value="20">20x</option></select></label>
+      <input type="range" id="pipeScrub" min="0" max="1" step="0.1" value="0" aria-label="Scrub the timeline">
+    </div>
+  </div>
+  <div class="steps" id="pipeSteps"></div>
+  <div class="pipebottom">
+    <div class="gantt" id="pipeGantt"></div>
+    <div class="detail" id="pipeDetail"></div>
   </div>
 </section>
 
@@ -49,7 +71,7 @@
 
   <section class="panel" id="resultPanel" hidden>
     <div class="row between">
-      <ol class="stages" id="stages"></ol>
+      <span class="muted">Advice</span>
       <span id="modeLabel" class="pill"></span>
     </div>
     <div id="status"></div>
@@ -68,6 +90,7 @@
     <details id="tech"><summary>Technical details</summary><pre id="techBody"></pre></details>
   </section>
 </main>
+<script src="/static/pipeline.js"></script>
 <script src="/static/app.js"></script>
 </body>
 </html>

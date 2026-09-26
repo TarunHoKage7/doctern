@@ -51,8 +51,11 @@ async function init() {
     (failures ? ` <span class="unknown">Unavailable sources: ${esc(failures)} (no district surveillance coverage).</span>` : "");
   loadCase(0);
   health();
+  let brief = null;
+  try { brief = await api("/api/evidence/brief"); } catch { /* no brief yet */ }
+  window.Pipeline.research(ev, brief);
   try {
-    const b = await api("/api/evidence/brief");
+    const b = brief; if (!b) throw new Error("no brief");
     $("snapInfo").innerHTML += `<details><summary>This week's evidence summary (${b.observations.length} points, ${esc({not_needed: "no clinical claims to check", reviewed_by_medgemma: "clinical claims checked by MedGemma", medgemma_unavailable: "MedGemma check unavailable"}[b.review_status] || b.review_status)})</summary><ul>` +
       b.observations.map((o) => `<li>${esc(o.statement)} <span class="facts">${esc(o.evidence_ids.join(", "))}</span></li>`).join("") +
       `</ul><p class="muted">Written by Gemma 4 from the pack above. The original passages always win.</p></details>`;
@@ -80,6 +83,7 @@ async function submit(mode) {
   try {
     const r = await api("/api/reviews", { method: "POST", body: JSON.stringify({ case: c, mode, client_request_id: rid() }) });
     watch(r.run_id);
+    document.getElementById("doctorPipe").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (e) { showPanel(); $("status").innerHTML = `<p class="err">${esc(e.message)}</p>`; }
 }
 function showPanel() { $("resultPanel").hidden = false; }
@@ -104,7 +108,7 @@ function cites(ids) { return (ids || []).map((e) => `<span class="cite" data-ev=
 function facts(paths) { return paths && paths.length ? `<div class="facts">case: ${esc(paths.join(", "))}</div>` : ""; }
 
 function render(r) {
-  stageBar(r);
+  window.Pipeline.update(r);
   $("modeLabel").textContent = MODE_LABEL[r.mode] || r.mode;
   const elapsed = r.completed_at ? ((new Date(r.completed_at) - new Date(r.created_at)) / 1000).toFixed(0) + " s" : "";
   if (r.status === "failed" || r.status === "interrupted") {
@@ -147,20 +151,31 @@ function render(r) {
   $("decision").hidden = false;
 }
 
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function listen(btn, input) {
+  const rec = new SR(); rec.lang = "en-IN"; rec.interimResults = true; rec.maxAlternatives = 1;
+  btn.classList.add("on"); btn.textContent = "Listening...";
+  rec.onresult = (e) => { input.value = Array.from(e.results).map((x) => x[0].transcript).join(" "); };
+  rec.onerror = (e) => { btn.textContent = "Mic error: " + e.error; };
+  rec.onend = () => { btn.classList.remove("on"); if (btn.textContent === "Listening...") btn.textContent = "Speak"; };
+  rec.start();
+}
+
 function renderQuestions(r, qs) {
   if (!qs.length) { $("clarify").innerHTML = ""; return; }
   $("clarify").innerHTML = `<h3>Questions</h3>` + qs.map((q, i) => `
     <div class="item"><b>${esc(q.question)}</b><div class="muted">${esc(q.why_it_matters)}</div>
     <div class="facts">${esc(q.field_path)}</div>
-    <input data-q="${i}" placeholder='Answer as JSON, e.g. [{"name":"platelet count","value":"85000","unit":"/microL","measured_at":null}]'></div>`).join("") +
+    <div class="row"><input data-q="${i}" placeholder="Type or speak your answer (JSON also accepted)">${SR ? `<button class="mic" data-mic="${i}" type="button">Speak</button>` : ""}</div></div>`).join("") +
     `<button id="clarifyBtn" class="primary">Submit clarification and recheck</button><div id="clarifyErr" class="err"></div>`;
+  document.querySelectorAll("[data-mic]").forEach((b) => b.onclick = () => listen(b, document.querySelector(`[data-q="${b.dataset.mic}"]`)));
   $("clarifyBtn").onclick = async () => {
     try {
       const answers = qs.map((q, i) => {
         const raw = document.querySelector(`[data-q="${i}"]`).value.trim();
         if (!raw) return null;
         let value; try { value = JSON.parse(raw); } catch { value = raw; }
-        return { field_path: q.field_path, value };
+        return { field_path: q.field_path, value, question: q.question };
       }).filter(Boolean);
       const out = await api(`/api/reviews/${r.run_id}/clarifications`, { method: "POST", body: JSON.stringify({ answers, client_request_id: rid() }) });
       const nr = await api(`/api/reviews/${out.run_id}`);
