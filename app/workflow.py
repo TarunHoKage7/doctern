@@ -18,15 +18,16 @@ from . import storage
 from .config import CONFIG_SNAPSHOT, DATA, LIMITS, PROMPTS, RUN_BUDGET_S
 from .evidence import load_snapshot
 from .models import GemmaClient, MedGemmaClient, ModelError, model_identity
-from .schemas import (NO_DISCREPANCY_MESSAGE, CaseRequest, FinalReview, LookupPlan, ModelAssessment)
+from .schemas import (NO_DISCREPANCY_MESSAGE, CaseRequest, FinalReview, LookupPlan, ModelAssessment,
+                      VerifyResult)
 from .tools import ToolError, execute, resolve_path
 
 STAGES = ["validate_input", "bind_snapshot", "gemma_lookup_plan", "execute_local_lookups",
-          "gemma_assessment", "medgemma_assessment", "reconcile_if_needed", "validate_result",
+          "gemma_assessment", "medgemma_assessment", "reconcile_if_needed", "verify_result", "validate_result",
           "persist_result"]
 STAGE_LABEL = {"gemma_lookup_plan": "Gathering evidence", "execute_local_lookups": "Gathering evidence",
                "gemma_assessment": "Gemma 4 assessment", "medgemma_assessment": "MedGemma review",
-               "reconcile_if_needed": "MedGemma review", "gemma_fallback_review": "MedGemma review", "validate_result": "Result",
+               "reconcile_if_needed": "MedGemma review", "gemma_fallback_review": "MedGemma review", "verify_result": "Result", "validate_result": "Result",
                "persist_result": "Result"}
 
 
@@ -46,6 +47,10 @@ def cache_key(case: dict, profile: dict, snapshot_id: str, identities: dict) -> 
                 "config": CONFIG_SNAPSHOT, "prompts": prompt_hashes, "rules": rules_hash,
                 "attachments": attachments}
     return hashlib.sha256(canonical(material).encode()).hexdigest()
+
+
+def case_sha(case: dict) -> str:
+    return hashlib.sha256(canonical(case).encode()).hexdigest()
 
 
 def passages_block(passages: list[dict]) -> str:
@@ -293,6 +298,30 @@ def run(run_id: str) -> None:
                                      "PROVISIONAL review without specialist confirmation. Never use "
                                      "no_material_discrepancy_identified.", review_input, FinalReview)
                     out["final"] = final
+            elif stage == "verify_result":
+                f = out.get("final")
+                if f and any(f.get(k) for k in ("secondary_diagnoses", "discrepancies", "suggested_checks", "disagreements")):
+                    shown = {k: list(enumerate(f.get(k, []))) for k in
+                             ("secondary_diagnoses", "discrepancies", "suggested_checks")}
+                    v = call("verify_result", gemma, prompt("verify"),
+                             case_block(case, profile)
+                             + "\n\nWHAT GEMMA 4 ACTUALLY SAID:\n" + canonical(out["gemma_assessment"])
+                             + "\n\nWHAT MEDGEMMA ACTUALLY SAID:\n"
+                             + (canonical(out["medgemma_assessment"]) if out.get("medgemma_assessment") else "UNAVAILABLE")
+                             + "\n\nEVIDENCE PASSAGES:\n" + passages_block(out["passages"])
+                             + brief_block(snap.snapshot_id)
+                             + "\n\nFINAL REVIEW TO VERIFY (indexed):\n" + canonical(shown)
+                             + "\nDISAGREEMENTS AS WRITTEN:\n" + canonical(f.get("disagreements", [])),
+                             VerifyResult)
+                    removed = []
+                    for key, rk in (("secondary_diagnoses", "remove_secondary_diagnoses"),
+                                    ("discrepancies", "remove_discrepancies"),
+                                    ("suggested_checks", "remove_suggested_checks")):
+                        drop = set(v[rk])
+                        removed += [{"section": key, "item": it} for i, it in enumerate(f.get(key, [])) if i in drop]
+                        f[key] = [it for i, it in enumerate(f.get(key, [])) if i not in drop]
+                    f["disagreements"] = v["corrected_disagreements"]
+                    out["verification"] = {"removed": removed, "reasons": v["reasons"], "verifier": gemma.model}
             elif stage == "validate_result":
                 if out["final"] is None:
                     out["result"] = {"disposition": "insufficient_evidence", "sections": {}, "withheld": [],
@@ -333,6 +362,7 @@ def build_result(run_id: str, row: dict, case: dict, out: dict) -> dict:
         "assessments": {"gemma": out.get("gemma_assessment"), "medgemma": out.get("medgemma_assessment"),
                         "reconciled": out.get("reconciled")},
         "medication_check": out.get("medication_check"),
+        "verification": out.get("verification"),
         "lookups": out.get("lookups"),
         "execution": {
             "run_id": run_id, "case_id": case["case_id"], "case_revision": case["revision"],

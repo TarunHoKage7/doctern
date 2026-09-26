@@ -104,6 +104,9 @@ def _create(case: CaseRequest, mode: str, crid: str) -> dict:
         if not path.exists():
             raise HTTPException(404, "no recorded replay exists for this case")
         rec = json.loads(path.read_text(encoding="utf-8"))
+        if rec.get("recorded_case_sha256") != workflow.case_sha(case_d):
+            raise HTTPException(409, "This case was edited after the replay was recorded. "
+                                     "Run a live review instead; the old result no longer applies.")
         rec["execution"] = {**rec["execution"], "mode": "recorded_replay",
                             "replay_note": "Recorded output of an earlier genuine local run; not a fresh model response."}
         storage.create_run(**base, mode="recorded_replay", status="completed", stage="persist_result",

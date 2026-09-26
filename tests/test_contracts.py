@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from app import storage, workflow
 from app.evidence import current_snapshot_id, load_snapshot
 from app.models import ModelError
-from app.schemas import CaseRequest, FinalReview, LookupPlan, ModelAssessment
+from app.schemas import CaseRequest, FinalReview, LookupPlan, ModelAssessment, VerifyResult
 from app.tools import ToolError, check_medication_facts, execute
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -100,7 +100,10 @@ class Mock:
     def structured(self, system, user, out):
         if self.fail:
             raise ModelError("mock failure")
-        if out is LookupPlan:
+        if out is VerifyResult:
+            obj = {"remove_secondary_diagnoses": [], "remove_discrepancies": [], "remove_suggested_checks": [],
+                   "corrected_disagreements": [], "reasons": []}
+        elif out is LookupPlan:
             obj = {"lookups": [{"tool": "search_evidence", "query": "dengue nsaid", "source_kinds": [], "reason": "r"}]}
         elif out is ModelAssessment:
             obj = {"candidate_discrepancies": [{"issue_type": "guideline_conflict", "summary": "NSAID in dengue",

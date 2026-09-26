@@ -4,6 +4,8 @@ Doctern reviews a patient case, the doctor's proposed diagnosis and plan, and da
 
 Built at the Google DeepMind Hyderabad Hackathon, 26 September 2026. The full brief is in [plan/](plan/clinical-context-assistant-implementation-brief.md).
 
+> **Demo note.** This hackathon demo calls Gemma 4 through the online Gemini API. MedGemma runs locally, or optionally on Vertex AI. The product is designed as a fully local setup: set `GEMMA_BACKEND=ollama` to run Gemma 4 E2B or E4B on the same machine, and no patient data leaves it.
+
 ## Architecture
 
 ```
@@ -13,6 +15,9 @@ case JSON ──> validate_input ──> bind_snapshot (immutable, dated evidenc
           ──> Gemma 4: tentative assessment
           ──> MedGemma: independent assessment (does not see Gemma's conclusions)
           ──> reconcile_if_needed: one extra Gemma lookup, then MedGemma final specialist review
+          ──> verify_result: a fresh Gemma 4 chat checks the advice against the case, what each model
+              actually said, the passages and the weekly summary; it removes unsupported items and
+              corrects any false account of the disagreement
           ──> validate_result (citation IDs exist, case paths exist, rule matches never dropped)
           ──> persist_result (SQLite; state saved after every stage, resumable)
 ```
@@ -20,6 +25,7 @@ case JSON ──> validate_input ──> bind_snapshot (immutable, dated evidenc
 - **Application code owns the sequence.** Models choose lookups inside fixed limits: 3 initial lookups, 1 reconciliation lookup, 6 passages, 1 schema repair per call, 2 questions.
 - **Validation checks traceability, not medical truth.** Unsupported conclusions are withheld and listed. A model failure or missing evidence can never produce "No material discrepancy identified in this review."
 - **Gemma-only fallback.** If MedGemma is unreachable or returns invalid output, Gemma 4 finishes the review. The result is labelled "Gemma 4 only: MedGemma specialist review unavailable", and the limitation is listed first. A fallback review can never report "No material discrepancy identified." Verified live on Ravi's case with MedGemma disabled: it completed in 51 s and flagged the ibuprofen concern.
+- **Replays are locked to their case.** A recorded replay plays only if the case is unchanged since recording. An edited case gets a live review.
 - **Result modes are labelled.** `live_local` is a fresh run. `cache_hit` is an identical earlier run, shown with its original time. `recorded_replay` is the saved output of an earlier genuine run.
 
 ## Models and runtimes

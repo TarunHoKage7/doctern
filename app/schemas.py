@@ -235,6 +235,15 @@ class FinalReview(Strict):
     limitations: list[str] = Field(default_factory=list)
 
 
+class VerifyResult(Strict):
+    """Fresh-chat Gemma verification of the final review. Indexes refer to the lists it was shown."""
+    remove_secondary_diagnoses: list[int] = Field(default_factory=list)
+    remove_discrepancies: list[int] = Field(default_factory=list)
+    remove_suggested_checks: list[int] = Field(default_factory=list)
+    corrected_disagreements: list[str] = Field(default_factory=list)
+    reasons: list[str] = Field(default_factory=list)
+
+
 # ---------------------------------------------------------------- API envelopes
 class ReviewRequest(Strict):
     case: CaseRequest
