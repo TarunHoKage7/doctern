@@ -26,7 +26,7 @@ STAGES = ["validate_input", "bind_snapshot", "gemma_lookup_plan", "execute_local
           "persist_result"]
 STAGE_LABEL = {"gemma_lookup_plan": "Gathering evidence", "execute_local_lookups": "Gathering evidence",
                "gemma_assessment": "Gemma 4 assessment", "medgemma_assessment": "MedGemma review",
-               "reconcile_if_needed": "MedGemma review", "validate_result": "Result",
+               "reconcile_if_needed": "MedGemma review", "gemma_fallback_review": "MedGemma review", "validate_result": "Result",
                "persist_result": "Result"}
 
 
@@ -114,7 +114,8 @@ def validate(final: dict, case: dict, allowed_ids: set[str], med_matches: list[d
     # Deterministic, source-backed medication rule matches are never silently dropped.
     covered = {p for d in sections["discrepancies"] for p in d["case_fact_paths"]}
     for m in med_matches:
-        if not any(p in covered for p in m["case_fact_paths"][:1]):
+        med_path = m["case_fact_paths"][0]
+        if not any(c == med_path or c.startswith(med_path + ".") for c in covered):
             sections["discrepancies"].append({
                 "issue_type": m["issue_type"], "summary": m["warning"],
                 "why": "Matched a limited source-backed medication check; the final model review did not address it.",
@@ -221,17 +222,26 @@ def run(run_id: str) -> None:
                                                case_block(case, profile) + "\n\nEVIDENCE PASSAGES:\n"
                                                + passages_block(out["passages"]), ModelAssessment)
             elif stage == "medgemma_assessment":
-                out["medgemma_assessment"] = call(stage, med, prompt("medgemma_assess"),
-                                                  case_block(case, profile) + "\n\nEVIDENCE PASSAGES:\n"
-                                                  + passages_block(out["passages"]), ModelAssessment)
+                try:
+                    out["medgemma_assessment"] = call(stage, med, prompt("medgemma_assess"),
+                                                      case_block(case, profile) + "\n\nEVIDENCE PASSAGES:\n"
+                                                      + passages_block(out["passages"]), ModelAssessment)
+                except ModelError as exc:
+                    # Degraded mode: Gemma finishes the review alone; clearly labelled, never "no discrepancy".
+                    out["medgemma_assessment"] = None
+                    out["medgemma_unavailable"] = str(exc)[:300]
             elif stage == "reconcile_if_needed":
                 g, m = out["gemma_assessment"], out["medgemma_assessment"]
                 rule_hits = out["medication_check"]["matched_rules"]
-                material = any(a[k] for a in (g, m) for k in
+                material = any(a[k] for a in (g, m) if a for k in
                                ("candidate_conditions", "candidate_discrepancies", "missing_material_facts")) or rule_hits
                 out["reconciled"] = bool(material)
                 if not out["passages"]:
                     out["final"] = None
+                elif not material and m is None:
+                    out["final"] = {"disposition": "insufficient_evidence", "secondary_diagnoses": [],
+                                    "discrepancies": [], "suggested_checks": [], "questions": [],
+                                    "disagreements": [], "limitations": []}
                 elif not material:
                     out["final"] = {"disposition": "no_material_discrepancy_identified", "secondary_diagnoses": [],
                                     "discrepancies": [], "suggested_checks": [], "questions": [],
@@ -252,13 +262,25 @@ def run(run_id: str) -> None:
                             out["lookups"]["rejected"].append({"request": req, "error": str(exc)})
                     out["passages"] = out["passages"][:LIMITS["max_passages"]]
                     out["reconcile_lookup"] = extra
-                    out["final"] = call("medgemma_final_review", med, prompt("medgemma_review"),
-                                        case_block(case, profile)
-                                        + "\n\nORCHESTRATOR ASSESSMENT (Gemma 4):\n" + canonical(g)
-                                        + "\n\nYOUR EARLIER INDEPENDENT ASSESSMENT (MedGemma):\n" + canonical(m)
-                                        + "\n\nDETERMINISTIC MEDICATION CHECK:\n" + canonical(out["medication_check"])
-                                        + "\n\nEVIDENCE PASSAGES:\n" + passages_block(out["passages"]),
-                                        FinalReview)
+                    review_input = (case_block(case, profile)
+                                    + "\n\nORCHESTRATOR ASSESSMENT (Gemma 4):\n" + canonical(g)
+                                    + "\n\nINDEPENDENT ASSESSMENT (MedGemma):\n"
+                                    + (canonical(m) if m else "UNAVAILABLE - MedGemma did not respond.")
+                                    + "\n\nDETERMINISTIC MEDICATION CHECK:\n" + canonical(out["medication_check"])
+                                    + "\n\nEVIDENCE PASSAGES:\n" + passages_block(out["passages"]))
+                    final = None
+                    if m is not None:
+                        try:
+                            final = call("medgemma_final_review", med, prompt("medgemma_review"), review_input,
+                                         FinalReview)
+                        except ModelError as exc:
+                            out["medgemma_unavailable"] = str(exc)[:300]
+                    if final is None:
+                        final = call("gemma_fallback_review", gemma, prompt("medgemma_review")
+                                     + "\n\nNOTE: The MedGemma specialist review is unavailable. You are producing a "
+                                     "PROVISIONAL review without specialist confirmation. Never use "
+                                     "no_material_discrepancy_identified.", review_input, FinalReview)
+                    out["final"] = final
             elif stage == "validate_result":
                 if out["final"] is None:
                     out["result"] = {"disposition": "insufficient_evidence", "sections": {}, "withheld": [],
@@ -267,6 +289,16 @@ def run(run_id: str) -> None:
                     allowed = {p["evidence_id"] for p in out["passages"]}
                     out["result"] = validate(out["final"], case, allowed,
                                              out["medication_check"]["matched_rules"])
+                if out.get("medgemma_unavailable"):
+                    out["result"]["review_mode"] = "gemma_only"
+                    out["result"]["limitations"] = [
+                        "MedGemma specialist review was unavailable (" + out["medgemma_unavailable"][:120]
+                        + "). This is a provisional Gemma 4 review without specialist confirmation."
+                    ] + out["result"]["limitations"]
+                    if out["result"]["disposition"] == "no_material_discrepancy_identified":
+                        out["result"]["disposition"] = "insufficient_evidence"
+                else:
+                    out["result"]["review_mode"] = "two_model"
                 if out["result"]["disposition"] == "no_material_discrepancy_identified":
                     out["result"]["message"] = NO_DISCREPANCY_MESSAGE
             elif stage == "persist_result":

@@ -117,6 +117,7 @@ function render(r) {
   const res = r.result, s = res.sections || {};
   let h = `<div class="disp ${res.disposition}">${esc(DISP_LABEL[res.disposition])}` +
     (res.disposition === "no_material_discrepancy_identified" ? `<span class="note">This is not approval of the diagnosis, prescription, or completeness of care.</span>` : "") + `</div>`;
+  if (res.review_mode === "gemma_only") h += `<div class="disp insufficient_evidence">Gemma 4 only: MedGemma specialist review unavailable<span class="note">Provisional review without specialist confirmation.</span></div>`;
   if (s.secondary_diagnoses?.length) h += `<h3>Plausible secondary diagnosis</h3>` + s.secondary_diagnoses.map((d) =>
     `<div class="item"><b>${esc(d.condition)}</b><div>${esc(d.why)}</div>${facts(d.case_fact_paths)}${cites(d.evidence_ids)}</div>`).join("");
   if (s.discrepancies?.length) h += `<h3>Discrepancies</h3>` + s.discrepancies.map((d) =>

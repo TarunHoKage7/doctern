@@ -10,3 +10,5 @@ server.log
 data/raw/
 server.err.log
 meera.out
+server8001.log
+server8001.err.log

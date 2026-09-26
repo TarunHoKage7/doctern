@@ -1,13 +1,14 @@
 """Submit a fixture case to the running app and print the genuine run trail."""
 import json, sys, time, uuid
-import httpx
+import httpx, os
+BASE = os.getenv("DOCTERN_URL", "http://127.0.0.1:8000")
 path, mode = sys.argv[1], (sys.argv[2] if len(sys.argv) > 2 else "live_local")
 case = json.load(open(path, encoding="utf-8"))
-r = httpx.post("http://127.0.0.1:8000/api/reviews", timeout=60,
+r = httpx.post(f"{BASE}/api/reviews", timeout=60,
                json={"case": case, "mode": mode, "client_request_id": "cli-" + uuid.uuid4().hex[:12]}).json()
 rid = r["run_id"]; t = time.time()
 while True:
-    s = httpx.get(f"http://127.0.0.1:8000/api/reviews/{rid}", timeout=30).json()
+    s = httpx.get(f"{BASE}/api/reviews/{rid}", timeout=30).json()
     if s["status"] in ("completed", "failed", "interrupted"): break
     time.sleep(3)
 print(rid, s["mode"], s["status"], round(time.time() - t), "s", s["error"] or "")

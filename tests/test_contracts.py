@@ -146,15 +146,26 @@ def test_schema_rejects_unlisted_tool_from_model():
         LookupPlan.model_validate({"lookups": [{"tool": "evil_tool", "query": "x", "reason": "r"}]})
 
 
-def test_model_failure_never_no_discrepancy_and_resume(db, monkeypatch):
+def test_medgemma_down_runs_gemma_only_and_never_no_discrepancy(db, monkeypatch):
     monkeypatch.setattr(workflow, "GemmaClient", lambda: Mock("mock-gemma"))
     monkeypatch.setattr(workflow, "MedGemmaClient", lambda: Mock("mock-med", fail=True))
-    rid = _mk(db, MEERA, "t2")
+    for case, crid in ((MEERA, "t2"), (RAVI, "t3")):
+        rid = _mk(db, case, crid)
+        workflow.run(rid)
+        row = db.get_run(rid)
+        res = json.loads(row["result_json"])
+        assert row["status"] == "completed" and res["review_mode"] == "gemma_only"
+        assert res["disposition"] != "no_material_discrepancy_identified"
+        assert "MedGemma specialist review was unavailable" in res["limitations"][0]
+
+
+def test_gemma_failure_fails_visibly_and_resumes(db, monkeypatch):
+    monkeypatch.setattr(workflow, "GemmaClient", lambda: Mock("mock-gemma", fail=True))
+    monkeypatch.setattr(workflow, "MedGemmaClient", lambda: Mock("mock-med"))
+    rid = _mk(db, MEERA, "t4")
     workflow.run(rid)
     row = db.get_run(rid)
     assert row["status"] == "failed" and row["result_json"] is None
-    done = json.loads(row["state_json"])["done"]
-    assert "gemma_assessment" in done and "medgemma_assessment" not in done
-    monkeypatch.setattr(workflow, "MedGemmaClient", lambda: Mock("mock-med"))
+    monkeypatch.setattr(workflow, "GemmaClient", lambda: Mock("mock-gemma"))
     workflow.run(rid)  # resume from last completed stage
     assert db.get_run(rid)["status"] == "completed"
